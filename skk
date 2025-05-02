@@ -1,0 +1,22 @@
+;; -*- emacs-lisp -*-
+(require 'skk-study)
+;; 各種メッセージを日本語で通知する
+(setq skk-japanese-message-and-error t)
+
+;; skk-version() の結果を日本語で表示する
+;;   nil  => Daredevil SKK/15.1 (Umeda)
+;;   t    => Daredevil SKK/15.1 (梅田)
+(setq skk-version-codename-ja t)
+
+(setq skk-show-inline 'vertical)
+
+(setq skk-large-jisyo "~/.config/emacs/.local/skk/SKK-JISYO.L")
+(setq skk-itaiji-jisyo "~/.config/emacs/.local/skk/SKK-JISYO.itaiji")
+(setq skk-extra-jisyo-file-list
+   '("~/.config/emacs/.local/skk/SKK-JISYO.geo"
+     "~/.config/emacs/.local/skk/SKK-JISYO.jinmei"
+     "~/.config/emacs/.local/skk/SKK-JISYO.station"
+     "~/.config/emacs/.local/skk/SKK-JISYO.fullname"
+     "~/.config/emacs/.local/skk/SKK-JISYO.propernoun"
+     "~/.config/emacs/.local/skk/SKK-JISYO.JIS2"
+     "~/.config/emacs/.local/skk/SKK-JISYO.JIS3_4"))

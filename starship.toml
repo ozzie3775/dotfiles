@@ -1,0 +1,10 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+right_format = """$time"""
+
+[aws]
+disabled = true
+
+[time]
+disabled = false
+format = '🕙 [$time]($style) '
+
