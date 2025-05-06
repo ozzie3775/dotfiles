@@ -5,6 +5,9 @@ HISTORY_IGNORE="(cd|pwd|l[sal])"
 HISTSIZE=10000
 SAVEHIST=10000
 
+# Emacs keybind
+bindkey -e
+
 setopt extended_history
 setopt hist_allow_clobber
 setopt hist_fcntl_lock
@@ -21,14 +24,6 @@ setopt hist_verify
 setopt inc_append_history_time
 
 umask 077
-
-# 環境変数
-export LANG="ja_JP.UTF-8"
-export LESS="-SiXRM"
-
-# Ls Color
-export LSCOLORS=exfxcxdxbxegedabagacad
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
 # if [ -e ~/.dircolors ]; then
 #     eval "$(dircolors -b ~/.dircolors)"
@@ -51,10 +46,14 @@ fi
 autoload -Uz compinit
 compinit
 zstyle ':completion:*:default' menu select=2
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+# Ls Color
+export LSCOLORS=exfxcxdxbxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
+
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # PATH
 typeset -U path PATH
@@ -69,15 +68,13 @@ if command -v lesspipe.sh 1>/dev/null 2>&1; then
     export LESSOPEN="| lesspipe.sh %s"
 fi
 
-export ZLS_COLORS=$LS_COLORS
-export CLICOLOR=true
-
 # タイトルバーにパスを表示する
 autoload -U add-zsh-hook
 add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
 
 function history-all { history -E 1 }
 
+# Functions
 function rmb {
     find . -name '.*~' -exec rm {} \; -print
     find . -name '*~' -exec rm {} \; -print
@@ -85,19 +82,19 @@ function rmb {
 
 # alias
 
-# Mac
+## Mac
 if [[ $OSTYPE == *darwin* ]]; then
     alias top="top -o cpu"
     alias ldd="otool -L"
     alias strace="dtruss"
 fi
 
-# Linux
+## Linux
 if [[ $OSTYPE == *linux* ]]; then
     alias open="xdg-open"
 fi
 
-# cygwin
+## cygwin
 if [[ $OSTYPE == cygwin ]]; then
     alias open="cygstart"
 fi
@@ -106,7 +103,6 @@ alias h=history
 alias vi="nvim"
 alias wgetg="wget -e robots=off -l 1 -H -r -nd -A .jpg"
 alias history='history -E'
-
 alias be="bundle exec"
 alias beruby="bundle exec ruby"
 alias berspec="bundle exec rspec"
