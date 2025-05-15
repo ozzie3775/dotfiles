@@ -86,6 +86,14 @@
 ;; ^Hは削除であって欲しい
 (keyboard-translate ?\C-h ?\C-?)
 
+(use-package! evil
+  :custom
+  ; # set splitbelow
+  (evil-split-window-below t)
+  ; # set splitright
+  (evil-vsplit-window-right t)
+  )
+
 ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
 (map! :i "C-j" nil)
 ;; insert modeのC-gはevil-escapeに上書きされるとSKKと相性が悪い

@@ -22,6 +22,8 @@ set shell=/bin/bash
 
 set modeline
 set modelines=5
+set splitbelow
+set splitright
 
 let g:lsp_async_completion = 1
 let g:lsp_diagnostics_enabled = 0
