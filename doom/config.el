@@ -84,10 +84,7 @@
 ;; they are implemented.
 
 ;; ^Hは削除であって欲しい
-(global-set-key (kbd "C-h") #'delete-backward-char)
-(map! :after vertico
-      :map vertico-map
-      "C-h" #'vertico-directory-delete-char)
+(keyboard-translate ?\C-h ?\C-?)
 
 ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
 (map! :i "C-j" nil)
@@ -97,9 +94,7 @@
 (map! :after evil-org
       :map evil-org-mode-map
       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
-      :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil)
-      ;; ^Hは削除であって欲しい
-      :i "C-h" (cmds! (org-at-table-p) #'org-table-previous-field nil))
+      :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil))
 
 ;; macOS GUIで起動した場合の設定
 (when (memq window-system '(mac ns))
@@ -121,11 +116,6 @@
   :custom
   treesit-font-lock-level 4)
 
-(use-package! vterm
-  :custom
-  ;; C-hはvtermに渡す
-  vterm-keymap-exceptions '("C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "M-o" "C-y" "M-y"))
-
 (use-package! skk
   :bind ("C-x C-j" . #'skk-mode)
   :config
@@ -143,6 +133,7 @@
   ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
   (remove-hook 'text-mode-hook #'pangu-spacing-mode))
 
+(use-package auth-source)
 (setq chatgpt-shell-anthropic-key
       (auth-source-pick-first-password :host "api.anthropic.com"))
 
