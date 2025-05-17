@@ -84,7 +84,7 @@
 ;; they are implemented.
 
 ;; ^Hは削除であって欲しい
-(keyboard-translate ?\C-h ?\C-?)
+(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 
 (use-package! evil
   :custom
@@ -106,19 +106,14 @@
 
 ;; macOS GUIで起動した場合の設定
 (when (memq window-system '(mac ns))
-  ;; M-RETでフルスクリーン
-  ;; (bind-key "M-C-m" 'toggle-frame-fullscreen)
-  ;; ドラッグアンドドロップでファイルを開く
-  ;; (define-key global-map [ns-drag-file] 'ns-find-file)
-  ;; MacのIMをOFFにする
-  ;;(mac-input-method-mode 0)
-  ;; C-jをOSに渡さない
-  ;;(setq mac-pass-control-to-system nil)
   ;; CommandをMetaとして使う
   (setq ns-command-modifier 'meta)
-  (setq ns-alternate-modifier 'super)
-  (add-to-list 'initial-frame-alist '(width . 200))
-  (add-to-list 'initial-frame-alist '(height . 50)))
+  (setq ns-alternate-modifier 'super))
+
+(add-to-list 'default-frame-alist '(width . 180))
+(add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(left . 500))
+(add-to-list 'default-frame-alist '(top . 200))
 
 (use-package! treesit
   :custom
