@@ -29,7 +29,7 @@
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "PlemolJP Console NF" :size 16))
+(setopt doom-font (font-spec :family "PlemolJP Console NF" :size 16))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -39,17 +39,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setopt doom-theme 'doom-dracula)
 ;; フレームの色の指定
-(setq frame-background-mode 'dark)
+(setopt frame-background-mode 'dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+(setopt display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/Org/")
+(setopt org-directory "~/Documents/Org/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -83,16 +83,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; キーバインド
 ;; ^Hは削除であって欲しい
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
-
-(use-package! evil
-  :custom
-  ; # set splitbelow
-  (evil-split-window-below t)
-  ; # set splitright
-  (evil-vsplit-window-right t)
-  )
 
 ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
 (map! :i "C-j" nil)
@@ -107,13 +100,23 @@
 ;; macOS GUIで起動した場合の設定
 (when (memq window-system '(mac ns))
   ;; CommandをMetaとして使う
-  (setq ns-command-modifier 'meta)
-  (setq ns-alternate-modifier 'super))
+  (setopt ns-command-modifier 'meta)
+  (setopt ns-alternate-modifier 'super))
 
 (add-to-list 'default-frame-alist '(width . 180))
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(left . 500))
 (add-to-list 'default-frame-alist '(top . 200))
+
+;; evilの挙動変更
+(use-package! evil
+  :custom
+  ; # set splitbelow
+  (evil-split-window-below t)
+  ; # set splitright
+  (evil-vsplit-window-right t)
+  ; 単語境界をEmacs互換に
+  (evil-cjk-emacs-word-boundary t))
 
 (use-package! treesit
   :custom
@@ -137,19 +140,23 @@
   (remove-hook 'text-mode-hook #'pangu-spacing-mode))
 
 (use-package auth-source)
-(setq chatgpt-shell-anthropic-key
-      (auth-source-pick-first-password :host "api.anthropic.com"))
+
+(setq chatgpt-shell-anthropic-key (auth-source-pick-first-password :host "api.anthropic.com"))
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
 (use-package! p2s
+  :custom
+  p2s-max-length 300
   :config
-  (setq p2s-max-length 300)
   (map! :leader
         :desc "Post region to all services"
         "r s" #'p2s-post-region-to-all-services))
 
-(setq org-roam-graph-viewer (executable-find "open"))
+(use-package! org-roam
+  :custom
+  org-roam-graph-viewer (executable-find "open"))
+
 (provide 'config)
 
 ;;; config.el ends here
