@@ -62,3 +62,5 @@
   (:host github
    :repo "ozzie3775/p2s"
    :files ("p2s.el")))
+
+(package! mastodon)
