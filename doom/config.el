@@ -82,7 +82,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
+;;
+(set-language-environment "Japanese")
 ;; キーバインド
 ;; ^Hは削除であって欲しい
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
@@ -99,6 +100,8 @@
 
 ;; macOS GUIで起動した場合の設定
 (when (memq window-system '(mac ns))
+  (require 'ucs-normalize)
+  (set-file-name-coding-system 'utf-8-hfs)
   ;; CommandをMetaとして使う
   (setopt ns-command-modifier 'meta)
   (setopt ns-alternate-modifier 'super))
