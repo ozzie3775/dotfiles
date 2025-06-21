@@ -114,7 +114,7 @@ alias bout="bundle outdated"
 alias bu="bundle update"
 alias bi="bundle_install"
 alias bcn="bundle clean"
-alias ls="eza --icons"
+alias ls="eza --time-style=long-iso --icons"
 
 # rbenv
 # brew install rbenv
