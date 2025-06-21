@@ -83,7 +83,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
-(set-language-environment "Japanese")
+;;(set-language-environment "Japanese")
 ;; キーバインド
 ;; ^Hは削除であって欲しい
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
