@@ -83,7 +83,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
-;;(set-language-environment "Japanese")
 ;; キーバインド
 ;; ^Hは削除であって欲しい
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
@@ -98,10 +97,13 @@
       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
       :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil))
 
-;; macOS GUIで起動した場合の設定
-(when (memq window-system '(mac ns))
+;; macOSのみの設定
+(when (eq system-type 'darwin)
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
+  )
+;; macOS GUIのみの設定
+(when (memq window-system '(mac ns))
   ;; CommandをMetaとして使う
   (setopt ns-command-modifier 'meta)
   (setopt ns-alternate-modifier 'super))
@@ -126,8 +128,14 @@
   treesit-font-lock-level 4)
 
 (use-package! skk
-  :bind ("C-x C-j" . #'skk-mode)
   :config
+  (defun skk-activate ()
+    (interactive)
+    (if skk-mode
+        (skk-kakutei)
+      (skk-mode)
+      ))
+  (global-set-key "\C-j" 'skk-activate)
   ;; input/japanese/config.elでaddされているhookを削除する
   (remove-hook 'doom-escape-hook #'skk-mode-exit)
   :hook
