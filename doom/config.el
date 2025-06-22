@@ -98,7 +98,7 @@
       :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil))
 
 ;; macOSのみの設定
-(when (eq system-type 'darwin)
+(when (featurep :system 'macos)
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
   )
