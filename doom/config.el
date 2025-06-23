@@ -85,7 +85,7 @@
 ;;
 ;; キーバインド
 ;; ^Hは削除であって欲しい
-(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
+(keymap-set key-translation-map "C-h" "<DEL>")
 
 ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
 (map! :i "C-j" nil)
@@ -96,6 +96,10 @@
       :map evil-org-mode-map
       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
       :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil))
+
+(map! :after org-keys
+      :map org-mode-map
+      "C-j" nil)
 
 ;; macOSのみの設定
 (when (featurep :system 'macos)
@@ -131,11 +135,11 @@
   :config
   (defun skk-activate ()
     (interactive)
-    (if skk-mode
+    (if (bound-and-true-p skk-mode)
         (skk-kakutei)
       (skk-mode)
       ))
-  (global-set-key "\C-j" 'skk-activate)
+  (keymap-global-set "C-j" #'skk-activate)
   ;; input/japanese/config.elでaddされているhookを削除する
   (remove-hook 'doom-escape-hook #'skk-mode-exit)
   :hook
