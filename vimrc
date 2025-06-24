@@ -12,6 +12,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'gosukiwi/vim-smartpairs'
+Plug 'easymotion/vim-easymotion'
+Plug 'tommcdo/vim-lion'
 call plug#end()
 
 filetype on
@@ -160,6 +162,7 @@ nnoremap <silent> <Leader>bb :Buffers<CR>
 nnoremap <silent> <Leader>ff :GFiles<CR>
 nnoremap <silent> <Leader>fF :Files<CR>
 nnoremap <silent> <Leader>. :Ex<CR>
+nmap gs <Plug>(easymotion-prefix)
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
