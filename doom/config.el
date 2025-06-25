@@ -101,16 +101,23 @@
       :map org-mode-map
       "C-j" nil)
 
-;; macOSのみの設定
-(when (featurep :system 'macos)
+;; macOSの設定
+(when (eq system-type 'darwin)
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
-  )
-;; macOS GUIのみの設定
-(when (memq window-system '(mac ns))
-  ;; CommandをMetaとして使う
   (setopt ns-command-modifier 'meta)
   (setopt ns-alternate-modifier 'super))
+
+;; WSLの設定
+(when (and (eq system-type 'gnu/linux)
+           (getenv "WSLENV"))
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic
+            search-web-default-browser 'browse-url-generic))))
 
 (add-to-list 'default-frame-alist '(width . 180))
 (add-to-list 'default-frame-alist '(height . 50))
