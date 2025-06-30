@@ -111,6 +111,9 @@
 ;; WSLの設定
 (when (and (eq system-type 'gnu/linux)
            (getenv "WSLENV"))
+  (use-package! migemo
+    :init
+    (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict"))
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
         (cmd-args '("/c" "start")))
     (when (file-exists-p cmd-exe)
