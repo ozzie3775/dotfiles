@@ -164,9 +164,13 @@
   ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
   (remove-hook 'text-mode-hook #'pangu-spacing-mode))
 
-(use-package auth-source)
-
-(setq chatgpt-shell-anthropic-key (auth-source-pick-first-password :host "api.anthropic.com"))
+(use-package! gptel
+  :config
+  (setq gptel-default-mode 'org-mode)
+  (setq gptel-model 'claude-3-7-sonnet-20250219)
+  (setq gptel-backend (gptel-make-anthropic "Claude"          ;Any name you want
+                        :stream t         ;Streaming responses
+                        :key (auth-source-pick-first-password :host "api.anthropic.com"))))
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
@@ -188,6 +192,7 @@
    (mastodon-active-user "ozzie3775"))
 
 (after! evil
+  (evil-set-initial-state 'gptel-mode 'emacs)
   (evil-set-initial-state 'mastodon-mode 'emacs))
 
 (provide 'config)

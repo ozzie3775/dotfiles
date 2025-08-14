@@ -48,16 +48,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! shell-maker :recipe
-  (:host github
-   :repo "xenodium/shell-maker"
-   :files ("shell-maker*.el")))
-
-(package! chatgpt-shell :recipe
-  (:host github
-   :repo "xenodium/chatgpt-shell"
-   :files ("chatgpt-shell*.el")))
-
 (package! p2s :recipe
   (:host github
    :repo "ozzie3775/p2s"
