@@ -164,8 +164,7 @@
   ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
   (remove-hook 'text-mode-hook #'pangu-spacing-mode))
 
-(use-package! gptel
-  :config
+(after! gptel
   (setq gptel-default-mode 'org-mode)
   (setq gptel-model 'claude-3-7-sonnet-20250219)
   (setq gptel-backend (gptel-make-anthropic "Claude"          ;Any name you want
