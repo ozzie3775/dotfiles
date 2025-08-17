@@ -166,10 +166,14 @@
 
 (after! gptel
   (setq gptel-default-mode 'org-mode)
-  (setq gptel-model 'claude-3-7-sonnet-20250219)
-  (setq gptel-backend (gptel-make-anthropic "Claude"          ;Any name you want
-                        :stream t         ;Streaming responses
-                        :key (auth-source-pick-first-password :host "api.anthropic.com"))))
+  (setq gptel-model 'claude-sonnet-4-20250514)
+  (setq gptel-backend (gptel-make-anthropic "Claude"
+                        :stream t
+                        :key (auth-source-pick-first-password :host "api.anthropic.com")))
+  (gptel-make-gemini "Gemini"
+    :stream t
+    :key (auth-source-pick-first-password :host "aistudio.google.com"))
+  )
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
