@@ -57,6 +57,14 @@ export CLICOLOR=true
 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+# zsh-fast-syntax-highlighting
+# brew install zsh-fast-syntax-highlighting
+source ${HOMEBREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
+# zsh-autosuggestions
+# brew install zsh-autosuggestions
+source ${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # PATH
 typeset -U path PATH
 path=(./bin(N-/) $path)
@@ -142,14 +150,6 @@ if command -v starship 1>/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
 
-# zsh-fast-syntax-highlighting
-# brew install zsh-fast-syntax-highlighting
-source ${HOMEBREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-
-# zsh-autosuggestions
-# brew install zsh-autosuggestions
-source ${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 ## fzf
 # brew install fzf
 if command -v fzf 1>/dev/null 2>&1; then
@@ -158,6 +158,12 @@ fi
 
 ## z
 source ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
+
+# uv
+# brew install uv
+if command -v uv 1>/dev/null 2>&1; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
 
 # for Emacs vterm
 vterm_printf() {
