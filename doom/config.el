@@ -95,7 +95,7 @@
 (map! :after evil-org
       :map evil-org-mode-map
       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
-      :i "C-j" (cmds! (org-at-table-p) #'org-table-next-row nil))
+      :i "C-j" nil)
 
 (map! :after org-keys
       :map org-mode-map
