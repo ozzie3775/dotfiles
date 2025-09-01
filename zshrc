@@ -155,6 +155,18 @@ fi
 if command -v fzf 1>/dev/null 2>&1; then
     eval "$(fzf --zsh)"
 fi
+export FZF_DEFAULT_OPTS='
+  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
+  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
+  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
+  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
+export FZF_CTRL_T_COMMAND="fd -t f"
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind '?:toggle-preview'"
+export FZF_ALT_C_COMMAND="fd -t d"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -200'"
+export FZF_TMUX=1
+export FZF_TMUX_OPTS="-p 80%"
+
 
 ## z
 source ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
