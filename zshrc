@@ -1,6 +1,7 @@
+# -*- zsh -*-
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-# -*- zsh -*-
+
 # history
 HISTFILE=~/.zsh_history
 HISTORY_IGNORE="(cd|pwd|l[sal])"
@@ -63,7 +64,7 @@ source ${HOMEBREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax
 
 # zsh-autosuggestions
 # brew install zsh-autosuggestions
-source ${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # PATH
 typeset -U path PATH
@@ -159,7 +160,8 @@ export FZF_DEFAULT_OPTS='
   --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
   --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
   --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
-  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
+  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
+  --preview-window=down'
 export FZF_CTRL_T_COMMAND="fd -t f"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind '?:toggle-preview'"
 export FZF_ALT_C_COMMAND="fd -t d"
