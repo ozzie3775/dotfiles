@@ -87,10 +87,12 @@
 ;; ^Hは削除であって欲しい
 (keymap-set key-translation-map "C-h" "<DEL>")
 
-;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
-(map! :i "C-j" nil)
-;; insert modeのC-gはevil-escapeに上書きされるとSKKと相性が悪い
-(map! :i "C-g" nil)
+(map! :n "H" 'centaur-tabs-backward
+      :n "L" 'centaur-tabs-forward
+      ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
+      :i "C-j" nil
+      ;; insert modeのC-gはevil-escapeに上書きされるとSKKと相性が悪い
+      :i "C-g" nil)
 
 (map! :after evil-org
       :map evil-org-mode-map
