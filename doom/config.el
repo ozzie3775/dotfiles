@@ -104,15 +104,14 @@
       "C-j" nil)
 
 ;; macOSの設定
-(when (eq system-type 'darwin)
+(when (featurep :system 'macos)
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
   (setopt ns-command-modifier 'meta)
   (setopt ns-alternate-modifier 'super))
 
 ;; WSLの設定
-(when (and (eq system-type 'gnu/linux)
-           (getenv "WSLENV"))
+(when (featurep :system 'wsl)
   (use-package! migemo
     :init
     (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict"))
