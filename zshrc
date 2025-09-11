@@ -35,16 +35,16 @@ umask 077
 
 # homebrew関係
 if command -v /usr/local/bin/brew &>/dev/null; then
-    eval "$(/usr/local/bin/brew shellenv)"
+  eval "$(/usr/local/bin/brew shellenv)"
 fi
 if command -v /opt/homebrew/bin/brew &>/dev/null; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # zsh-completions
 # brew install zsh-completions
 if command -v brew &>/dev/null; then
-   FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
+  FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
 fi
 autoload -Uz compinit
 compinit
@@ -76,7 +76,7 @@ path=(~/go/bin(N-/) $path)
 
 # lesspipe
 if command -v lesspipe.sh 1>/dev/null 2>&1; then
-    export LESSOPEN="| lesspipe.sh %s"
+  export LESSOPEN="| lesspipe.sh %s"
 fi
 
 # タイトルバーにパスを表示する
@@ -87,27 +87,27 @@ function history-all { history -E 1 }
 
 # Functions
 function rmb {
-    find . -name '.*~' -exec rm {} \; -print
-    find . -name '*~' -exec rm {} \; -print
+  find . -name '.*~' -exec rm {} \; -print
+  find . -name '*~' -exec rm {} \; -print
 }
 
 # alias
 
 ## Mac
 if [[ $OSTYPE == *darwin* ]]; then
-    alias top="top -o cpu"
-    alias ldd="otool -L"
-    alias strace="dtruss"
+  alias top="top -o cpu"
+  alias ldd="otool -L"
+  alias strace="dtruss"
 fi
 
 ## Linux
 if [[ $OSTYPE == *linux* ]]; then
-    alias open="xdg-open"
+  alias open="xdg-open"
 fi
 
 ## cygwin
 if [[ $OSTYPE == cygwin ]]; then
-    alias open="cygstart"
+  alias open="cygstart"
 fi
 
 alias h=history
@@ -130,38 +130,44 @@ alias ls="eza --time-style=long-iso --icons"
 # rbenv
 # brew install rbenv
 if command -v rbenv 1>/dev/null 2>&1; then
-    eval "$(rbenv init -)"
+  eval "$(rbenv init -)"
 fi
 
 # pyenv
 # brew install pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
+  eval "$(pyenv init -)"
 fi
 
 # nodenv
 # brew install nodenv
 if command -v nodenv 1>/dev/null 2>&1; then
-    eval "$(nodenv init -)"
+  eval "$(nodenv init -)"
 fi
 
 # starship
 # brew install starship
 if command -v starship 1>/dev/null 2>&1; then
-    eval "$(starship init zsh)"
+  eval "$(starship init zsh)"
+fi
+
+# zoxide
+# brew install zoxide
+if command -v zoxide 1>/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
 fi
 
 ## fzf
 # brew install fzf
 if command -v fzf 1>/dev/null 2>&1; then
-    eval "$(fzf --zsh)"
+  eval "$(fzf --zsh)"
 fi
 export FZF_DEFAULT_OPTS='
-  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
-  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
-  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
-  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
-  --preview-window=down'
+--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
+--color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
+--color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
+--color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
+--preview-window=down'
 export FZF_CTRL_T_COMMAND="fd -t f"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind '?:toggle-preview'"
 export FZF_ALT_C_COMMAND="fd -t d"
@@ -169,33 +175,29 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -2
 export FZF_TMUX=1
 export FZF_TMUX_OPTS="-p 80%"
 
-
-## z
-source ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
-
 # uv
 # brew install uv
 if command -v uv 1>/dev/null 2>&1; then
-    eval "$(uv generate-shell-completion zsh)"
+  eval "$(uv generate-shell-completion zsh)"
 fi
 
 # for Emacs vterm
 vterm_printf() {
-    if [ -n "$TMUX" ] \
-        && { [ "${TERM%%-*}" = "tmux" ] \
-            || [ "${TERM%%-*}" = "screen" ]; }; then
-        # Tell tmux to pass the escape sequences through
-        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        printf "\eP\e]%s\007\e\\" "$1"
-    else
-        printf "\e]%s\e\\" "$1"
-    fi
+  if [ -n "$TMUX" ] \
+    && { [ "${TERM%%-*}" = "tmux" ] \
+    || [ "${TERM%%-*}" = "screen" ]; }; then
+  # Tell tmux to pass the escape sequences through
+  printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+elif [ "${TERM%%-*}" = "screen" ]; then
+  # GNU screen (screen, screen-256color, screen-256color-bce)
+  printf "\eP\e]%s\007\e\\" "$1"
+else
+  printf "\e]%s\e\\" "$1"
+  fi
 }
 
 vterm_prompt_end() {
-    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+  vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
