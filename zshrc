@@ -1,4 +1,4 @@
-# -*- zsh -*-
+# -*- sh -*-
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 
@@ -194,6 +194,15 @@ elif [ "${TERM%%-*}" = "screen" ]; then
 else
   printf "\e]%s\e\\" "$1"
   fi
+}
+
+# Yazi
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
 }
 
 vterm_prompt_end() {
