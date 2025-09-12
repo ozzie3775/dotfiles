@@ -43,6 +43,7 @@
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints             ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       (smooth-scroll +interpolate) ;So smooth you won't believe it's not butter
        tabs                ; a tab bar for Emacs
        (treemacs +lsp)     ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
@@ -78,7 +79,7 @@
        eshell              ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       (:if (featurep :system 'macos) vterm) ; the best terminal emulation in Emacs
+       vterm               ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -102,7 +103,6 @@
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf                 ; pdf enhancements
-       ;;prodigy           ; FIXME managing external services & code builders
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        tree-sitter         ; syntax and parsing, sitting in a tree...
@@ -141,6 +141,7 @@
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        (json +lsp +tree-sitter) ; At least it ain't XML
+       ;;janet             ; Fun fact: Janet is me!
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
        (javascript +lsp +tree-sitter) ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB

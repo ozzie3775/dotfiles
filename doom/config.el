@@ -1,10 +1,4 @@
-;;; $DOOMDIR/config.el --- config.el -*- lexical-binding: t; -*-
-
-;;; Commentary:
-
-;; My config.el.
-
-;;; Code:
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -45,7 +39,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setopt display-line-numbers-type 'relative)
+(setopt display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -138,10 +132,6 @@
   ; 単語境界をEmacs互換に
   (evil-cjk-emacs-word-boundary t))
 
-(use-package! treesit
-  :custom
-  treesit-font-lock-level 4)
-
 (use-package! skk
   :config
   (defun skk-activate ()
@@ -198,11 +188,3 @@
 (after! evil
   (evil-set-initial-state 'gptel-mode 'emacs)
   (evil-set-initial-state 'mastodon-mode 'emacs))
-
-(provide 'config)
-
-;;; config.el ends here
-;;;
-;; Local Variables:
-;; flycheck-disabled-checkers: (emacs-lisp emacs-lisp-checkdoc)
-;; End:
