@@ -179,12 +179,3 @@
 (use-package! org-roam
   :custom
   org-roam-graph-viewer (executable-find "open"))
-
- (use-package! mastodon
-   :custom
-   (mastodon-instance-url "https://mastodon-japan.net/")
-   (mastodon-active-user "ozzie3775"))
-
-(after! evil
-  (evil-set-initial-state 'gptel-mode 'emacs)
-  (evil-set-initial-state 'mastodon-mode 'emacs))
