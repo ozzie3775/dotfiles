@@ -106,9 +106,7 @@
 
 ;; WSLの設定
 (when (featurep :system 'wsl)
-  (use-package! migemo
-    :init
-    (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict"))
+  (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
         (cmd-args '("/c" "start")))
     (when (file-exists-p cmd-exe)
@@ -123,37 +121,31 @@
 (add-to-list 'default-frame-alist '(top . 200))
 
 ;; evilの挙動変更
-(use-package! evil
-  :custom
-  ; # set splitbelow
-  (evil-split-window-below t)
-  ; # set splitright
-  (evil-vsplit-window-right t)
-  ; 単語境界をEmacs互換に
-  (evil-cjk-emacs-word-boundary t))
+;; set splitbelow
+(setopt evil-split-window-below t)
+;; set splitright
+(setopt evil-vsplit-window-right t)
+;; 単語境界をEmacs互換に
+(setopt evil-cjk-emacs-word-boundary t)
 
-(use-package! skk
-  :config
-  (defun skk-activate ()
-    (interactive)
-    (if (bound-and-true-p skk-mode)
-        (skk-kakutei)
-      (skk-mode)
-      ))
-  (keymap-global-set "C-j" #'skk-activate)
-  ;; input/japanese/config.elでaddされているhookを削除する
-  (remove-hook 'doom-escape-hook #'skk-mode-exit)
-  :hook
-  ;; normalモードに入るときにSKKをlatin-modeにする
-  (evil-normal-state-entry-hook
-   . (lambda ()
-       (when (bound-and-true-p skk-mode)
-         (skk-latin-mode-on)))))
+(defun skk-activate ()
+  (interactive)
+  (if (bound-and-true-p skk-mode)
+      (skk-kakutei)
+    (skk-mode)
+    ))
+(map! "C-j" #'skk-activate)
+;; input/japanese/config.elでaddされているhookを削除する
+(after! skk
+  (remove-hook 'doom-escape-hook #'skk-mode-exit))
+;; normalモードに入るときにSKKをlatin-modeにする
+(add-hook 'evil-normal-state-entry-hook
+          (lambda ()
+            (when (bound-and-true-p skk-mode)
+              (skk-latin-mode-on))))
 
-(use-package! pangu-spacing
-  :config
-  ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
-  (remove-hook 'text-mode-hook #'pangu-spacing-mode))
+;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
+(remove-hook 'text-mode-hook #'pangu-spacing-mode)
 
 (after! gptel
   (setq gptel-default-mode 'org-mode)
@@ -166,16 +158,16 @@
     :key (auth-source-pick-first-password :host "aistudio.google.com"))
   )
 
+(after! org-roam
+  (setq org-roam-graph-viewer (executable-find "open")))
+
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
-(use-package! p2s
+(use-package p2s
+  :commands (p2s-post-region-to-all-services)
   :custom
   p2s-max-length 300
-  :config
+  :init
   (map! :leader
         :desc "Post region to all services"
         "r s" #'p2s-post-region-to-all-services))
-
-(use-package! org-roam
-  :custom
-  org-roam-graph-viewer (executable-find "open"))
