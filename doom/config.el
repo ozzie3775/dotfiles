@@ -79,33 +79,42 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;;
-;; キーバインド
-;; ^Hは削除であって欲しい
-(keymap-set key-translation-map "C-h" "<DEL>")
 
-(map! :n "H" 'centaur-tabs-backward
-      :n "L" 'centaur-tabs-forward
+(map! :n "H" #'centaur-tabs-backward
+      :n "L" #'centaur-tabs-forward
+      :ei "C-h" #'delete-backward-char
       ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
       :i "C-j" nil
       ;; insert modeのC-gはevil-escapeに上書きされるとSKKと相性が悪い
-      :i "C-g" nil)
+      :i "C-g" nil
 
-(map! :after evil-org
-      :map evil-org-mode-map
-      ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
-      :i "C-j" nil)
+      (:after evil
+       :map (evil-ex-completion-map evil-ex-search-keymap)
+       "C-h" #'evil-ex-delete-backward-char)
 
-(map! :after org-keys
-      :map org-mode-map
-      "C-j" nil)
+      (:after vertico
+       :map vertico-map
+       "C-h" #'vertico-directory-delete-char)
+
+      (:after corfu-popupinfo
+       :map corfu-popupinfo-map
+       ;; default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
+       "C-h" #'backward-delete-char)
+
+      (:after evil-org :map evil-org-mode-map
+       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
+       :i "C-j" nil
+       ;; C-hはlang/org/configでorg-end-of-lineに上書きされているのでnilにしておく
+       :i "C-h" nil)
+
+      (:after org
+       :map org-mode-map
+       "C-j" nil))
 
 ;; macOSの設定
 (when (featurep :system 'macos)
   (require 'ucs-normalize)
-  (set-file-name-coding-system 'utf-8-hfs)
-  (setopt ns-command-modifier 'meta)
-  (setopt ns-alternate-modifier 'super))
+  (set-file-name-coding-system 'utf-8-hfs))
 
 ;; WSLの設定
 (when (featurep :system 'wsl)
@@ -137,7 +146,7 @@
       (skk-kakutei)
     (skk-mode)
     ))
-(map! "C-j" #'skk-activate)
+(map! :ei "C-j" #'skk-activate)
 ;; input/japanese/config.elでaddされているhookを削除する
 (after! skk
   (remove-hook 'doom-escape-hook #'skk-mode-exit))
