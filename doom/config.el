@@ -173,6 +173,9 @@
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
 
+;; カレンダーの週の始まりを月曜日にする
+(setq calendar-week-start-day 1)
+
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
 (use-package p2s
