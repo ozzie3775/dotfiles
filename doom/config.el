@@ -81,6 +81,8 @@
 ;; they are implemented.
 
 (setopt evil-disable-insert-state-bindings t)
+(after! evil-escape
+  (setq evil-escape-key-sequence "jk"))
 
 (map! :n "H" #'centaur-tabs-backward
       :n "L" #'centaur-tabs-forward
