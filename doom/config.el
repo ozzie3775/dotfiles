@@ -80,6 +80,12 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; 日付表記を日本語に
+(setq system-time-locale "ja_JP.UTF-8")
+;; カレンダーの週の始まりを月曜日にする
+(setq calendar-week-start-day 1)
+
+;; キーバインド
 (map! :ei "C-h" #'delete-backward-char
       ;; config/default/config.elで+default/newlineと定義されているのでnilにしておく
       :i "C-j" nil
@@ -121,22 +127,21 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 
+;; 初期フレーム
 (add-to-list 'default-frame-alist '(width . 180))
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(left . 500))
 (add-to-list 'default-frame-alist '(top . 200))
 
 ;; evilの挙動変更
-;; set splitbelow
-(setq evil-split-window-below t)
-;; set splitright
-(setq evil-vsplit-window-right t)
-;; 単語境界をEmacs互換に
-(setq evil-cjk-emacs-word-boundary t)
-(setq evil-disable-insert-state-bindings t)
+(setq evil-split-window-below t      ; set splitbelow
+      evil-vsplit-window-right t     ; set splitright
+      evil-cjk-emacs-word-boundary t ; 単語境界をEmacs互換に
+      evil-disable-insert-state-bindings t)
 (after! evil-escape
   (setq evil-escape-key-sequence "jk"))
 
+;; SKKまわりの設定
 (defun +skk-activate ()
   (interactive)
   (if (bound-and-true-p skk-mode)
@@ -167,9 +172,6 @@
 
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
-
-;; カレンダーの週の始まりを月曜日にする
-(setq calendar-week-start-day 1)
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
