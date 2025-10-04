@@ -80,36 +80,26 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setopt evil-disable-insert-state-bindings t)
+
 (map! :n "H" #'centaur-tabs-backward
       :n "L" #'centaur-tabs-forward
       :ei "C-h" #'delete-backward-char
-      ;; C-jは+bindingsで+default/newlineに上書きされているのでnilにしておく
+      ;; config/default/config.elで+default/newlineと定義されているのでnilにしておく
       :i "C-j" nil
-      ;; insert modeのC-gはevil-escapeに上書きされるとSKKと相性が悪い
-      :i "C-g" nil
 
-      (:after evil
-       :map (evil-ex-completion-map evil-ex-search-keymap)
+      (:map (evil-ex-completion-map evil-ex-search-keymap)
        "C-h" #'evil-ex-delete-backward-char)
 
       (:after vertico
        :map vertico-map
+       ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
        "C-h" #'vertico-directory-delete-char)
 
       (:after corfu-popupinfo
        :map corfu-popupinfo-map
-       ;; default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
-       "C-h" #'backward-delete-char)
-
-      (:after evil-org :map evil-org-mode-map
-       ;; C-jはlang/org/configでorg-down-elementに上書きされているのでnilにしておく
-       :i "C-j" nil
-       ;; C-hはlang/org/configでorg-end-of-lineに上書きされているのでnilにしておく
-       :i "C-h" nil)
-
-      (:after org
-       :map org-mode-map
-       "C-j" nil))
+       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
+       "C-h" #'backward-delete-char))
 
 ;; macOSの設定
 (when (featurep :system 'macos)
