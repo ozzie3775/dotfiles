@@ -80,12 +80,13 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; 日付表記を日本語に
+;;; 日付表記を日本語に
 (setq system-time-locale "ja_JP.UTF-8")
-;; カレンダーの週の始まりを月曜日にする
+
+;;; カレンダーの週の始まりを月曜日にする
 (setq calendar-week-start-day 1)
 
-;; キーバインド
+;;; キーバインド
 (map! :ei "C-h" #'delete-backward-char
       ;; config/default/config.elで+default/newlineと定義されているのでnilにしておく
       :i "C-j" nil
@@ -111,12 +112,12 @@
        ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
        "C-h" #'delete-backward-char))
 
-;; macOSの設定
+;;; macOSの設定
 (when (featurep :system 'macos)
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs))
 
-;; WSLの設定
+;;; WSLの設定
 (when (featurep :system 'wsl)
   (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
@@ -127,21 +128,21 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 
-;; 初期フレーム
+;;; 初期フレーム
 (add-to-list 'default-frame-alist '(width . 180))
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(left . 500))
 (add-to-list 'default-frame-alist '(top . 200))
 
-;; evilの挙動変更
-(setq evil-split-window-below t      ; set splitbelow
-      evil-vsplit-window-right t     ; set splitright
-      evil-cjk-emacs-word-boundary t ; 単語境界をEmacs互換に
+;;; evilの挙動変更
+(setq evil-split-window-below t         ; set splitbelow
+      evil-vsplit-window-right t        ; set splitright
+      evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
       evil-disable-insert-state-bindings t)
 (after! evil-escape
   (setq evil-escape-key-sequence "jk"))
 
-;; SKKまわりの設定
+;;; SKKまわりの設定
 (defun +skk-activate ()
   (interactive)
   (if (bound-and-true-p skk-mode)
