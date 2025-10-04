@@ -80,10 +80,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setopt evil-disable-insert-state-bindings t)
-(after! evil-escape
-  (setq evil-escape-key-sequence "jk"))
-
 (map! :n "H" #'centaur-tabs-backward
       :n "L" #'centaur-tabs-forward
       :ei "C-h" #'delete-backward-char
@@ -91,7 +87,13 @@
       :i "C-j" nil
 
       (:map (evil-ex-completion-map evil-ex-search-keymap)
-       "C-h" #'evil-ex-delete-backward-char)
+            "C-h" #'evil-ex-delete-backward-char)
+
+      (:map isearch-mode-map
+            "C-h" #'isearch-delete-char)
+
+      (:map minibuffer-local-map
+            "C-h" #'delete-backward-char)
 
       (:after vertico
        :map vertico-map
@@ -101,7 +103,7 @@
       (:after corfu-popupinfo
        :map corfu-popupinfo-map
        ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
-       "C-h" #'backward-delete-char))
+       "C-h" #'delete-backward-char))
 
 ;; macOSの設定
 (when (featurep :system 'macos)
@@ -131,6 +133,9 @@
 (setopt evil-vsplit-window-right t)
 ;; 単語境界をEmacs互換に
 (setopt evil-cjk-emacs-word-boundary t)
+(setopt evil-disable-insert-state-bindings t)
+(after! evil-escape
+  (setq evil-escape-key-sequence "jk"))
 
 (defun skk-activate ()
   (interactive)
