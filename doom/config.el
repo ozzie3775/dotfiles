@@ -137,11 +137,9 @@
     (skk-mode)
     ))
 (map! :ei "C-j" #'skk-activate)
-;; input/japanese/config.elでaddされているhookを削除する
-(after! skk
-  (remove-hook 'doom-escape-hook #'skk-mode-exit))
-;; normalモードに入るときにSKKをlatin-modeにする
-(add-hook 'evil-normal-state-entry-hook
+
+;; insertモードから出るときにSKKをlatin-modeにする
+(add-hook 'evil-insert-state-exit-hook
           (lambda ()
             (when (bound-and-true-p skk-mode)
               (skk-latin-mode-on))))
