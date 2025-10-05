@@ -100,7 +100,7 @@
        "C-h" #'isearch-delete-char)
 
       (:map minibuffer-local-map
-            "C-h" #'delete-backward-char)
+            "C-h" nil)
 
       (:after vertico
        :map vertico-map
@@ -109,8 +109,12 @@
 
       (:after corfu-popupinfo
        :map corfu-popupinfo-map
-       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているので上書きする
-       "C-h" #'delete-backward-char))
+       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
+       "C-h" nil)
+
+      (:after vterm
+       :map vterm-mode-map
+       :i "C-h" #'vterm--self-insert))
 
 ;;; macOSの設定
 (when (featurep :system 'macos)
