@@ -100,7 +100,7 @@
        "C-h" #'isearch-delete-char)
 
       (:map minibuffer-local-map
-            "C-h" nil)
+            "C-h" #'delete-backward-char)
 
       (:after vertico
        :map vertico-map
