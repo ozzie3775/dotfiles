@@ -132,6 +132,14 @@
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
 
+;;; Windowsの設定
+(when (featurep :system 'windows)
+  ;; Git for Windowsのfind.exeのPathを先頭に
+  (setenv "PATH"
+          (concat
+           "c:\\Program Files\\Git\\usr\\bin;"
+           (getenv "PATH"))))
+
 ;;; 初期フレーム
 (add-to-list 'default-frame-alist '(width . 180))
 (add-to-list 'default-frame-alist '(height . 50))
