@@ -114,7 +114,11 @@
 
       (:after vterm
        :map vterm-mode-map
-       :i "C-h" #'vterm--self-insert))
+       :i "C-h" #'vterm--self-insert)
+
+      (:after skk
+       :map skk-j-mode-map
+       "C-h" #'skk-delete-backward-char))
 
 ;;; macOSの設定
 (when (featurep :system 'macos)
@@ -136,12 +140,12 @@
 (when (featurep :system 'windows)
   ;; Git for Windowsのfind.exeのPathを先頭に
   (setenv "PATH"
-          (concat
-           "c:\\Program Files\\Git\\usr\\bin;"
-           (getenv "PATH"))))
+          (concat "c:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
+  (setq exec-path (parse-colon-path (getenv "PATH")))
+  (setq migemo-dictionary (concat migemo-directory "migemo-dict")))
 
 ;;; 初期フレーム
-(add-to-list 'default-frame-alist '(width . 180))
+(add-to-list 'default-frame-alist '(width . 120))
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(left . 500))
 (add-to-list 'default-frame-alist '(top . 200))
