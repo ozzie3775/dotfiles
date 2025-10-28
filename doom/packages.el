@@ -52,3 +52,6 @@
   (:host github
    :repo "ozzie3775/p2s"
    :files ("p2s.el")))
+
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))

@@ -178,14 +178,8 @@
 
 (after! gptel
   (setq gptel-default-mode 'org-mode)
-  (setq gptel-model 'claude-sonnet-4-20250514)
-  (setq gptel-backend (gptel-make-anthropic "Claude"
-                        :stream t
-                        :key (auth-source-pick-first-password :host "api.anthropic.com")))
-  (gptel-make-gemini "Gemini"
-    :stream t
-    :key (auth-source-pick-first-password :host "aistudio.google.com"))
-  )
+  (setq gptel-model 'gpt-4o)
+  (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
 
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
@@ -200,3 +194,11 @@
   (map! :leader
         :desc "Post region to all services"
         "r s" #'p2s-post-region-to-all-services))
+
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
