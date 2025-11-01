@@ -178,7 +178,7 @@
 
 (after! gptel
   (setq gptel-default-mode 'org-mode)
-  (setq gptel-model 'gpt-4o)
+  (setq gptel-model 'gpt-4.1)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
 
 (after! org-roam
