@@ -179,7 +179,13 @@
 (after! gptel
   (setq gptel-default-mode 'org-mode)
   (setq gptel-model 'gpt-4.1)
-  (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
+  (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (gptel-make-gemini "Gemini" :key gptel-api-key :stream t)
+  (gptel-make-anthropic "Claude" :key gptel-api-key :stream t))
+
+(after! gptel-magit
+  (setq gptel-magit-commit-prompt
+        (concat gptel-magit-prompt-conventional-commits "\n\nコメントは日本語で出力すること")))
 
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
@@ -196,7 +202,6 @@
         "r s" #'p2s-post-region-to-all-services))
 
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
