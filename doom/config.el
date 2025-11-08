@@ -202,6 +202,7 @@
         "r s" #'p2s-post-region-to-all-services))
 
 (use-package! copilot
+  :commands (copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
