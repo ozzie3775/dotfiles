@@ -185,7 +185,7 @@
 
 (after! gptel-magit
   (setq gptel-magit-commit-prompt
-        (concat gptel-magit-prompt-conventional-commits "\n\nコメントは日本語で出力すること")))
+        (concat gptel-magit-prompt-conventional-commits "\n\nコメントは日本語で体言止めで出力すること")))
 
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
@@ -199,7 +199,8 @@
   :init
   (map! :leader
         :desc "Post region to all services"
-        "r s" #'p2s-post-region-to-all-services))
+        "r r" #'p2s-post-region-to-all-services
+        "r s" #'p2s-post-below-point-to-all-services))
 
 (use-package! copilot
   :commands (copilot-mode)
