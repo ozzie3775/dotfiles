@@ -48,10 +48,11 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! p2s :recipe
-  (:host github
-   :repo "ozzie3775/p2s"
-   :files ("p2s.el")))
+(package! p2s
+  :recipe (:host github :repo "ozzie3775/p2s" :files ("p2s.el")))
 
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
+(package! llm-tool-collection
+  :recipe (:host github :repo "skissue/llm-tool-collection" :files ("*.el")))

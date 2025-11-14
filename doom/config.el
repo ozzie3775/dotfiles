@@ -181,7 +181,13 @@
   (setq gptel-model 'gpt-4.1)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
   (gptel-make-gemini "Gemini" :key gptel-api-key :stream t)
-  (gptel-make-anthropic "Claude" :key gptel-api-key :stream t))
+  (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)
+  (mapcar (apply-partially #'apply #'gptel-make-tool)
+          (llm-tool-collection-get-all)))
+
+(use-package! llm-tool-collection
+  :after gptel
+  :commands (llm-tool-collection-get-all))
 
 (after! gptel-magit
   (setq gptel-magit-commit-prompt
