@@ -186,12 +186,12 @@
           (llm-tool-collection-get-all)))
 
 (use-package! llm-tool-collection
-  :after gptel
-  :commands (llm-tool-collection-get-all))
+  :commands llm-tool-collection-get-all)
 
 (after! gptel-magit
   (setq gptel-magit-commit-prompt
-        (concat gptel-magit-prompt-conventional-commits "\n\nコメントは日本語で体言止めで出力すること")))
+        (concat gptel-magit-prompt-conventional-commits
+                "\n\nコメントは日本語で体言止めで出力すること")))
 
 (after! org-roam
   (setq org-roam-graph-viewer (executable-find "open")))
@@ -199,9 +199,8 @@
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
 (use-package p2s
-  :commands (p2s-post-region-to-all-services)
-  :custom
-  p2s-max-length 300
+  :commands p2s-post-region-to-all-services
+  :custom p2s-max-length 300
   :init
   (map! :leader
         :desc "Post region to all services"
@@ -209,9 +208,11 @@
         "r s" #'p2s-post-below-point-to-all-services))
 
 (use-package! copilot
-  :commands (copilot-mode)
+  :commands copilot-mode
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
