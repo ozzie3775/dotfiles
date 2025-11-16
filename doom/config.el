@@ -80,6 +80,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; 終了時確認しない
+(setq confirm-kill-emacs nil)
+
 ;;; 日付表記を日本語に
 (setq system-time-locale "ja_JP.UTF-8")
 
@@ -203,8 +206,9 @@
   :custom p2s-max-length 300
   :init
   (map! :leader
-        :desc "Post region to all services"
+        :desc "Post the region to all SNS"
         "r r" #'p2s-post-region-to-all-services
+        :desc "Post the line below to all SNS"
         "r s" #'p2s-post-below-point-to-all-services))
 
 (use-package! copilot
@@ -216,3 +220,18 @@
               ("C-<tab>" . 'copilot-accept-completion-by-word))
   :config
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
+
+(use-package! gt
+  :commands (gt-translate gt-translator)
+  :init
+  (map! :leader
+        :desc "Translate the region"
+        "r t" #'gt-translate)
+  :config
+  (set-popup-rule! "*gt-result*" :slot 1 :vslot -1 :size 0.3 :select t :quit t)
+  (setq! gt-default-translator
+         (gt-translator
+          :taker (gt-taker :text 'buffer :pick 'paragraph)
+          :engines (gt-deepl-engine)
+          :render (gt-buffer-render :then (gt-kill-ring-render)))
+         gt-langs '(en ja)))
