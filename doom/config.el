@@ -155,9 +155,9 @@
 
 ;;; evilの挙動変更
 (setq! evil-split-window-below t         ; set splitbelow
-      evil-vsplit-window-right t        ; set splitright
-      evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
-      evil-disable-insert-state-bindings t)
+       evil-vsplit-window-right t        ; set splitright
+       evil-cjk-emacs-word-boundary t)   ; 単語境界をEmacs互換に
+(setq evil-disable-insert-state-bindings t)
 (after! evil-escape
   (setq! evil-escape-key-sequence "jk"))
 
@@ -231,7 +231,7 @@
   (set-popup-rule! "*gt-result*" :slot 1 :vslot -1 :size 0.3 :select t :quit t)
   (setq! gt-default-translator
          (gt-translator
-          :taker (gt-taker :text 'buffer :pick 'paragraph)
+          :taker (gt-taker :text 'paragraph :pick 'paragraph)
           :engines (gt-deepl-engine)
           :render (gt-buffer-render :then (gt-kill-ring-render)))
          gt-langs '(en ja)))
