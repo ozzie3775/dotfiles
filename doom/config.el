@@ -221,20 +221,16 @@
   :config
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
-(use-package! gt
-  :commands (gt-translate gt-translator)
+(use-package! google-translate
+  :commands google-translate-smooth-translate
   :init
+  (set-popup-rule! "*Google Translate*" :slot 1 :vslot -1 :size 0.3 :select t :quit t)
+  (setq! google-translate-pop-up-buffer-set-focus t)
+  (setq! google-translate-translation-directions-alist
+         '(("en" . "ja") ("ja" . "en")))
   (map! :leader
         :desc "Translate the region"
-        "r t" #'gt-translate)
-  :config
-  (set-popup-rule! "*gt-result*" :slot 1 :vslot -1 :size 0.3 :select t :quit t)
-  (setq! gt-default-translator
-         (gt-translator
-          :taker (gt-taker :text 'paragraph :pick 'paragraph)
-          :engines (gt-deepl-engine)
-          :render (gt-buffer-render :then (gt-kill-ring-render)))
-         gt-langs '(en ja)))
+        "r t" #'google-translate-smooth-translate))
 
 (defun +convert-md-to-org-region (start end)
   "Convert Markdown in region to Org format using pandoc."
