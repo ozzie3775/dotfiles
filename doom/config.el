@@ -235,3 +235,16 @@
           :engines (gt-deepl-engine)
           :render (gt-buffer-render :then (gt-kill-ring-render)))
          gt-langs '(en ja)))
+
+(defun +convert-md-to-org-region (start end)
+  "Convert Markdown in region to Org format using pandoc."
+  (interactive "r")
+  (shell-command-on-region
+   start end
+   "pandoc -f markdown -t org"
+   t   ; output to current buffer
+   t)) ; replace region
+
+(map! :leader
+      :desc "Convert Markdown to org region"
+      "r m" #'+convert-md-to-org-region)
