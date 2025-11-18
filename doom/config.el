@@ -80,6 +80,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(defconst AT-OFFICE
+  (file-exists-p (expand-file-name ".at-office" doom-user-dir))
+
 ;; 終了時確認しない
 (setq confirm-kill-emacs nil)
 
@@ -181,10 +184,14 @@
 
 (after! gptel
   (setq! gptel-default-mode 'org-mode)
-  (setq! gptel-model 'gpt-4.1)
-  (setq! gptel-backend (gptel-make-gh-copilot "Copilot"))
-  (gptel-make-gemini "Gemini" :key gptel-api-key :stream t)
-  (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)
+  (cond
+   (AT-OFFICE
+    (setq! gptel-model 'gpt-4.1)
+    (setq! gptel-backend (gptel-make-gh-copilot "Copilot")))
+   (t
+    (setq! gptel-model 'gemini-flash-lite-latest)
+    (setq! gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
+    (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
           (llm-tool-collection-get-all)))
 
@@ -202,6 +209,7 @@
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
 (use-package p2s
+  :unless AT-OFFICE
   :commands p2s-post-region-to-all-services
   :custom p2s-max-length 300
   :init
@@ -214,23 +222,12 @@
 (use-package! copilot
   :commands copilot-mode
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("<tab>"   . 'copilot-accept-completion)
+              ("TAB"     . 'copilot-accept-completion)
+              ("C-TAB"   . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word))
   :config
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
-
-(use-package! google-translate
-  :commands google-translate-smooth-translate
-  :init
-  (set-popup-rule! "*Google Translate*" :slot 1 :vslot -1 :size 0.3 :select t :quit t)
-  (setq! google-translate-pop-up-buffer-set-focus t)
-  (setq! google-translate-translation-directions-alist
-         '(("en" . "ja") ("ja" . "en")))
-  (map! :leader
-        :desc "Translate the region"
-        "r T" #'google-translate-smooth-translate))
 
 (use-package! gt
   :commands (gt-translate gt-translator)
@@ -250,7 +247,7 @@
   (setq! gt-default-translator
          (gt-translator
           :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
-          :engines (gt-deepl-engine)
+          :engines (gt-deepl-engine :pro AT-OFFICE)
           :render (gt-buffer-render))))
 
 (defun +convert-md-to-org-region (start end)
