@@ -58,3 +58,4 @@
   :recipe (:host github :repo "skissue/llm-tool-collection" :files ("*.el")))
 
 (package! google-translate)
+(package! gt)

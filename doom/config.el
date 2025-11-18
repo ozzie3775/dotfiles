@@ -230,7 +230,28 @@
          '(("en" . "ja") ("ja" . "en")))
   (map! :leader
         :desc "Translate the region"
-        "r t" #'google-translate-smooth-translate))
+        "r T" #'google-translate-smooth-translate))
+
+(use-package! gt
+  :commands (gt-translate gt-translator)
+  :init
+  (map! :leader
+        :desc "Translate the region"
+        "r t" #'gt-translate)
+  :config
+  (set-popup-rule! "*gt-result*" :size 0.5 :select t :quit t)
+  (add-hook 'gt-buffer-render-init-hook
+            (lambda ()
+              (setq-local truncate-lines nil)
+              ))
+  (setq! gt-debug-p t)
+  (setq! gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
+                                 ("preserve_formatting" . "1")))
+  (setq! gt-default-translator
+         (gt-translator
+          :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
+          :engines (gt-deepl-engine)
+          :render (gt-buffer-render))))
 
 (defun +convert-md-to-org-region (start end)
   "Convert Markdown in region to Org format using pandoc."
