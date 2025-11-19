@@ -261,4 +261,4 @@
 
 (map! :leader
       :desc "Convert Markdown to org region"
-      "r m" #'+convert-md-to-org-region)
+      "r o" #'+convert-md-to-org-region)
