@@ -81,7 +81,7 @@
 ;; they are implemented.
 
 (defconst AT-OFFICE
-  (file-exists-p (expand-file-name ".at-office" doom-user-dir))
+  (file-exists-p (expand-file-name ".at-office" doom-user-dir)))
 
 ;; 終了時確認しない
 (setq confirm-kill-emacs nil)
@@ -186,7 +186,7 @@
   (setq! gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setq! gptel-model 'gpt-4.1)
+    (setq! gptel-model 'gpt-5)
     (setq! gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
     (setq! gptel-model 'gemini-flash-lite-latest)
