@@ -239,7 +239,7 @@
   (set-popup-rule! "*gt-result*" :size 0.5 :select t :quit t)
   (add-hook 'gt-buffer-render-init-hook
             (lambda ()
-              (setq-local truncate-lines nil)
+              (visual-line-mode 1)
               ))
   (setq! gt-debug-p t)
   (setq! gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
