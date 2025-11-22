@@ -150,11 +150,18 @@
   (setq! exec-path (parse-colon-path (getenv "PATH")))
   (setq! migemo-dictionary (concat migemo-directory "migemo-dict")))
 
-;;; 初期フレーム
-(add-to-list 'default-frame-alist '(width . 120))
-(add-to-list 'default-frame-alist '(height . 50))
-(add-to-list 'default-frame-alist '(left . 500))
-(add-to-list 'default-frame-alist '(top . 200))
+(cond
+ ((> (display-mm-height) 250)
+  (add-to-list 'default-frame-alist `(width . 160))
+  (add-to-list 'default-frame-alist `(height . 60))
+  (add-to-list 'default-frame-alist '(left . 500))
+  (add-to-list 'default-frame-alist '(top . 0)))
+ (t
+  (add-to-list 'default-frame-alist `(width . 120))
+  (add-to-list 'default-frame-alist `(height . 38))
+  (add-to-list 'default-frame-alist '(left . 150))
+  (add-to-list 'default-frame-alist '(top . 0)))
+   )
 
 ;;; evilの挙動変更
 (setq! evil-split-window-below t         ; set splitbelow
