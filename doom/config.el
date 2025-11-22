@@ -92,40 +92,6 @@
 ;;; カレンダーの週の始まりを月曜日にする
 (setq! calendar-week-start-day 1)
 
-;;; キーバインド
-(map! :ei "C-h" #'delete-backward-char
-      ;; config/default/config.elで+default/newlineと定義されているのでnilにしておく
-      :i "C-j" nil
-
-      (:after evil
-       :map (evil-ex-completion-map evil-ex-search-keymap)
-       "C-h" #'evil-ex-delete-backward-char)
-
-      (:after isearch
-       :map isearch-mode-map
-       "C-h" #'isearch-delete-char)
-
-      (:map minibuffer-local-map
-            "C-h" #'delete-backward-char)
-
-      (:after vertico
-       :map vertico-map
-       ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
-       "C-h" #'vertico-directory-delete-char)
-
-      (:after corfu-popupinfo
-       :map corfu-popupinfo-map
-       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
-       "C-h" nil)
-
-      (:after vterm
-       :map vterm-mode-map
-       :i "C-h" #'vterm--self-insert)
-
-      (:after skk
-       :map skk-j-mode-map
-       "C-h" #'skk-delete-backward-char))
-
 ;;; macOSの設定
 (when (featurep :system 'macos)
   (require 'ucs-normalize)
@@ -167,7 +133,7 @@
 (setq! evil-split-window-below t         ; set splitbelow
        evil-vsplit-window-right t        ; set splitright
        evil-cjk-emacs-word-boundary t)   ; 単語境界をEmacs互換に
-(setq evil-disable-insert-state-bindings t)
+(setq! evil-disable-insert-state-bindings t)
 (after! evil-escape
   (setq! evil-escape-key-sequence "jk"))
 
@@ -178,7 +144,6 @@
       (skk-kakutei)
     (skk-mode)
     ))
-(map! :ei "C-j" #'+skk-activate)
 
 ;; insertモードから出るときにSKKをlatin-modeにする
 (add-hook 'evil-insert-state-exit-hook
@@ -188,6 +153,39 @@
 
 ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
 (remove-hook 'text-mode-hook #'pangu-spacing-mode)
+
+;;; キーバインド
+(map! :ei "C-h" #'delete-backward-char
+      :ei "C-j" #'+skk-activate
+
+      (:after evil
+       :map (evil-ex-completion-map evil-ex-search-keymap)
+       "C-h" #'evil-ex-delete-backward-char)
+
+      (:after isearch
+       :map isearch-mode-map
+       "C-h" #'isearch-delete-char)
+
+      (:map minibuffer-local-map
+            "C-h" #'delete-backward-char)
+
+      (:after vertico
+       :map vertico-map
+       ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
+       "C-h" #'vertico-directory-delete-char)
+
+      (:after corfu-popupinfo
+       :map corfu-popupinfo-map
+       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
+       "C-h" nil)
+
+      (:after vterm
+       :map vterm-mode-map
+       :i "C-h" #'vterm--self-insert)
+
+      (:after skk
+       :map skk-j-mode-map
+       "C-h" #'skk-delete-backward-char))
 
 (after! gptel
   (setq! gptel-default-mode 'org-mode)
@@ -205,6 +203,9 @@
 (use-package! llm-tool-collection
   :commands llm-tool-collection-get-all)
 
+(after! magit
+  (setq +magit-open-windows-in-direction 'down))
+
 (after! gptel-magit
   (setq! gptel-magit-commit-prompt
         (concat gptel-magit-prompt-conventional-commits
@@ -215,7 +216,7 @@
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
-(use-package p2s
+(use-package! p2s
   :unless AT-OFFICE
   :commands p2s-post-region-to-all-services
   :custom p2s-max-length 300
