@@ -116,10 +116,11 @@
   (setq! exec-path (parse-colon-path (getenv "PATH")))
   (setq! migemo-dictionary (concat migemo-directory "migemo-dict")))
 
-(when (window-system)
+(when (display-graphic-p)
   (cond
    ((> (display-mm-height) 270)
-  ;; iMac Retina 5K 27 inch 2019 27" (5120x2880) -> 397
+    ;; iMac Retina 5K 27 inch 2019 27" (5120x2880) -> 397
+    ;; JAPANNEXT WQHD (2560x1440) 27" JN-i27QR-C65W-HSP -> 397
     (add-to-list 'default-frame-alist `(width . 160))
     (add-to-list 'default-frame-alist `(height . 60))
     (add-to-list 'default-frame-alist '(left . 500))
