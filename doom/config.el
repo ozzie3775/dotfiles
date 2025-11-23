@@ -116,21 +116,22 @@
   (setq! exec-path (parse-colon-path (getenv "PATH")))
   (setq! migemo-dictionary (concat migemo-directory "migemo-dict")))
 
-(cond
- ((> (display-mm-height) 270)
+(when (window-system)
+  (cond
+   ((> (display-mm-height) 270)
   ;; iMac Retina 5K 27 inch 2019 27" (5120x2880) -> 397
-  (add-to-list 'default-frame-alist `(width . 160))
-  (add-to-list 'default-frame-alist `(height . 60))
-  (add-to-list 'default-frame-alist '(left . 500))
-  (add-to-list 'default-frame-alist '(top . 0)))
- (t
-  ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
-  ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
-  (add-to-list 'default-frame-alist `(width . 120))
-  (add-to-list 'default-frame-alist `(height . 38))
-  (add-to-list 'default-frame-alist '(left . 150))
-  (add-to-list 'default-frame-alist '(top . 0)))
-   )
+    (add-to-list 'default-frame-alist `(width . 160))
+    (add-to-list 'default-frame-alist `(height . 60))
+    (add-to-list 'default-frame-alist '(left . 500))
+    (add-to-list 'default-frame-alist '(top . 0)))
+   (t
+    ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
+    ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
+    (add-to-list 'default-frame-alist `(width . 120))
+    (add-to-list 'default-frame-alist `(height . 38))
+    (add-to-list 'default-frame-alist '(left . 150))
+    (add-to-list 'default-frame-alist '(top . 0)))
+   ))
 
 ;;; evilの挙動変更
 (setq! evil-split-window-below t         ; set splitbelow
