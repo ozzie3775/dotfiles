@@ -118,18 +118,22 @@
 
 (when (display-graphic-p)
   (cond
-   ((> (display-mm-height) 270)
+   ((> (display-mm-height) 320)
     ;; iMac Retina 5K 27 inch 2019 27" (5120x2880) -> 397
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-i27QR-C65W-HSP -> 397
-    (add-to-list 'default-frame-alist `(width . 160))
-    (add-to-list 'default-frame-alist `(height . 60))
+    ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR -> 336
+    ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR (WSL) -> 381
+    (add-to-list 'default-frame-alist '(width . 160))
+    (add-to-list 'default-frame-alist '(height . 60))
     (add-to-list 'default-frame-alist '(left . 500))
     (add-to-list 'default-frame-alist '(top . 0)))
    (t
     ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
     ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
-    (add-to-list 'default-frame-alist `(width . 120))
-    (add-to-list 'default-frame-alist `(height . 38))
+    ;; HP Elite Book 840 G10 14.0" (1920x1200) -> 189
+    ;; HP Elite Book 840 G10 14.0" (1920x1200) (WSL) -> 317
+    (add-to-list 'default-frame-alist '(width . 120))
+    (add-to-list 'default-frame-alist '(height . 38))
     (add-to-list 'default-frame-alist '(left . 150))
     (add-to-list 'default-frame-alist '(top . 0)))
    ))
