@@ -142,7 +142,7 @@
 (setq! evil-split-window-below t         ; set splitbelow
        evil-vsplit-window-right t        ; set splitright
        evil-cjk-emacs-word-boundary t)   ; 単語境界をEmacs互換に
-(setq! evil-disable-insert-state-bindings t)
+(setq evil-disable-insert-state-bindings t)
 (after! evil-escape
   (setq! evil-escape-key-sequence "jk"))
 
