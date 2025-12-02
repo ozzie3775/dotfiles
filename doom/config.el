@@ -44,9 +44,9 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq! org-directory "~/Documents/Org/")
-(after! org
-  (setq! org-hide-leading-stars nil)
-  (setq! org-startup-indented nil))
+;; (after! org
+;;   (setq! org-hide-leading-stars nil)
+;;   (setq! org-startup-indented nil))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -141,8 +141,8 @@
 ;;; evilの挙動変更
 (setq! evil-split-window-below t         ; set splitbelow
        evil-vsplit-window-right t        ; set splitright
-       evil-cjk-emacs-word-boundary t)   ; 単語境界をEmacs互換に
-(setq evil-disable-insert-state-bindings t)
+       evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
+       evil-want-C-h-delete t)
 (after! evil-escape
   (setq! evil-escape-key-sequence "jk"))
 
@@ -164,37 +164,35 @@
 (remove-hook 'text-mode-hook #'pangu-spacing-mode)
 
 ;;; キーバインド
-(map! :ei "C-h" #'delete-backward-char
-      :ei "C-j" #'+skk-activate
+(map! :ei "C-j" #'+skk-activate
 
-      (:after evil
-       :map (evil-ex-completion-map evil-ex-search-keymap)
-       "C-h" #'evil-ex-delete-backward-char)
+      (:after evil :map (evil-ex-completion-map evil-ex-search-keymap)
+              "C-h" #'evil-ex-delete-backward-char)
 
-      (:after isearch
-       :map isearch-mode-map
-       "C-h" #'isearch-delete-char)
+      (:after isearch :map isearch-mode-map
+              "C-h" #'isearch-delete-char)
 
       (:map minibuffer-local-map
             "C-h" #'delete-backward-char)
 
-      (:after vertico
-       :map vertico-map
-       ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
-       "C-h" #'vertico-directory-delete-char)
+      ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
+      (:after vertico :map vertico-map
+              "C-h" #'vertico-directory-delete-char)
 
-      (:after corfu-popupinfo
-       :map corfu-popupinfo-map
-       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
-       "C-h" nil)
+      ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
+      (:after corfu-popupinfo :map corfu-popupinfo-map
+              "C-h" nil)
 
-      (:after vterm
-       :map vterm-mode-map
+      (:after vterm :map vterm-mode-map
        :i "C-h" #'vterm--self-insert)
 
-      (:after skk
-       :map skk-j-mode-map
-       "C-h" #'skk-delete-backward-char))
+      (:after skk :map skk-j-mode-map
+              "C-h" #'skk-delete-backward-char)
+
+      ;; lang/org/config.elで定義されているのでnilにしておく
+      (:after evil-org :map evil-org-mode-map
+       :i "C-h" nil
+       :i "C-j" nil))
 
 (after! gptel
   (setq! gptel-default-mode 'org-mode)
@@ -217,8 +215,8 @@
 
 (after! gptel-magit
   (setq! gptel-magit-commit-prompt
-        (concat gptel-magit-prompt-conventional-commits
-                "\n\nコメントは日本語で体言止めで出力すること")))
+         (concat gptel-magit-prompt-conventional-commits
+                 "\n\nコメントは日本語で体言止めで出力すること")))
 
 (after! org-roam
   (setq! org-roam-graph-viewer (executable-find "open")))
