@@ -166,31 +166,38 @@
 ;;; キーバインド
 (map! :ei "C-j" #'+skk-activate
 
-      (:after evil :map (evil-ex-completion-map evil-ex-search-keymap)
-              "C-h" #'evil-ex-delete-backward-char)
+      (:after evil
+       :map (evil-ex-completion-map evil-ex-search-keymap)
+       "C-h" #'evil-ex-delete-backward-char)
 
-      (:after isearch :map isearch-mode-map
-              "C-h" #'isearch-delete-char)
+      (:after isearch
+       :map isearch-mode-map
+       "C-h" #'isearch-delete-char)
 
       (:map minibuffer-local-map
             "C-h" #'delete-backward-char)
 
       ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
-      (:after vertico :map vertico-map
-              "C-h" #'vertico-directory-delete-char)
+      (:after vertico
+       :map vertico-map
+       "C-h" #'vertico-directory-delete-char)
 
       ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
-      (:after corfu-popupinfo :map corfu-popupinfo-map
-              "C-h" nil)
+      (:after corfu-popupinfo
+       :map corfu-popupinfo-map
+       "C-h" nil)
 
-      (:after vterm :map vterm-mode-map
+      (:after vterm
+       :map vterm-mode-map
        :i "C-h" #'vterm--self-insert)
 
-      (:after skk :map skk-j-mode-map
-              "C-h" #'skk-delete-backward-char)
+      (:after skk
+       :map skk-j-mode-map
+       "C-h" #'skk-delete-backward-char)
 
       ;; lang/org/config.elで定義されているのでnilにしておく
-      (:after evil-org :map evil-org-mode-map
+      (:after evil-org
+       :map evil-org-mode-map
        :i "C-h" nil
        :i "C-j" nil))
 
@@ -198,7 +205,7 @@
   (setq! gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setq! gptel-model 'gpt-5)
+    (setq! gptel-model 'gpt-5.1)
     (setq! gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
     (setq! gptel-model 'gemini-flash-lite-latest)
