@@ -6,7 +6,7 @@ local config = wezterm.config_builder()
 
 config.font = wezterm.font("PlemolJP Console NF")
 config.initial_cols = 100
-config.initial_rows = 50
+config.initial_rows = 38
 config.font_size = 17.0
 config.color_scheme = "Dracula (Official)"
 config.hide_tab_bar_if_only_one_tab = true
