@@ -4,7 +4,7 @@ local wezterm = require("wezterm")
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
-config.font = wezterm.font("PlemolJP Console NF")
+config.font = wezterm.font("UDEV Gothic NF")
 config.initial_cols = 100
 config.initial_rows = 38
 config.font_size = 17.0
