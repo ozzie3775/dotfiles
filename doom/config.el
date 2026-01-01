@@ -124,19 +124,15 @@
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-i27QR-C65W-HSP -> 397
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR -> 336
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR (WSL) -> 381
-    (add-to-list 'default-frame-alist '(width . 160))
-    (add-to-list 'default-frame-alist '(height . 60))
-    (add-to-list 'default-frame-alist '(left . 500))
-    (add-to-list 'default-frame-alist '(top . 0)))
+    (add-to-list 'default-frame-alist '(width . 120))
+    (add-to-list 'default-frame-alist '(height . 60)))
    (t
     ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
     ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
     ;; HP Elite Book 840 G10 14.0" (1920x1200) -> 189
     ;; HP Elite Book 840 G10 14.0" (1920x1200) (WSL) -> 317
     (add-to-list 'default-frame-alist '(width . 120))
-    (add-to-list 'default-frame-alist '(height . 38))
-    (add-to-list 'default-frame-alist '(left . 150))
-    (add-to-list 'default-frame-alist '(top . 0)))
+    (add-to-list 'default-frame-alist '(height . 38)))
    ))
 
 ;;; evilの挙動変更
@@ -166,6 +162,7 @@
 
 ;;; キーバインド
 (map! :ei "C-j" #'+skk-activate
+      :e "C-h" #'delete-backward-char
 
       (:after evil
        :map (evil-ex-completion-map evil-ex-search-keymap)
