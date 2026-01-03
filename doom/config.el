@@ -45,9 +45,17 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq! org-directory "~/Documents/Org/")
+(setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
 ;; (after! org
 ;;   (setq! org-hide-leading-stars nil)
 ;;   (setq! org-startup-indented nil))
+(after! org
+  (let ((new-template
+         '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
+           "* %U\n%?\n%i\n%c")))
+    (unless (assoc "s" org-capture-templates)
+      (setq org-capture-templates
+            (cons new-template org-capture-templates)))))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
