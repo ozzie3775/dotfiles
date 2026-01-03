@@ -55,8 +55,47 @@
            "* %U\n%?\n%i\n%c")))
     (unless (assoc "s" org-capture-templates)
       (setq org-capture-templates
-            (cons new-template org-capture-templates)))))
+            (cons new-template org-capture-templates))))
 
+  (let ((new-t-template
+         '("t" "Personal todo" entry (file +org-capture-todo-file)
+           "* INBOX %?\n%i\n%a" :prepend t)))
+    (setq org-capture-templates
+          (delq (assoc "t" org-capture-templates) org-capture-templates))
+    (unless (assoc "t" org-capture-templates)
+      (setq org-capture-templates
+            (cons new-t-template org-capture-templates))))
+  (setq org-todo-keywords
+        '((sequence
+           "INBOX(i)"
+           "TODO(t)"
+           "NEXT(n)"
+           "WAITTING(w@/!)"
+           "HOLD(h)"
+           "SOMEDAY(s)"
+           "|"
+           "DONE(d)"
+           "CANCELLED(c@)")
+          (sequence
+           "[ ](T)"   ; A task that needs doing
+           "[-](S)"   ; Task is in progress
+           "[?](W)"   ; Task is being held up or paused
+           "|"
+           "[X](D)")  ; Task was completed
+          (sequence
+           "|"
+           "OKAY(o)"
+           "YES(y)"
+           "NO(n)"))
+        org-todo-keyword-faces
+        '(("[-]"  . +org-todo-active)
+          ("NEXT" . +org-todo-active)
+          ("[?]"  . +org-todo-onhold)
+          ("WAITTING" . +org-todo-onhold)
+          ("HOLD" . +org-todo-onhold)
+          ("PROJ" . +org-todo-project)
+          ("NO"   . +org-todo-cancel)
+          ("CANCELLED" . +org-todo-cancel))))
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
