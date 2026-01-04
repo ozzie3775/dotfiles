@@ -52,19 +52,11 @@
 (after! org
   (let ((new-template
          '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
-           "* %U\n%?\n%i\n%c")))
+           "* %U\n%?\n%i")))
     (unless (assoc "s" org-capture-templates)
       (setq org-capture-templates
             (cons new-template org-capture-templates))))
 
-  (let ((new-t-template
-         '("t" "Personal todo" entry (file +org-capture-todo-file)
-           "* INBOX %?\n%i\n%a" :prepend t)))
-    (setq org-capture-templates
-          (delq (assoc "t" org-capture-templates) org-capture-templates))
-    (unless (assoc "t" org-capture-templates)
-      (setq org-capture-templates
-            (cons new-t-template org-capture-templates))))
   (setq org-todo-keywords
         '((sequence
            "INBOX(i)"
