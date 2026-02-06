@@ -1,5 +1,3 @@
-# Kiro CLI pre block. Keep at the top of this file.
-#[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 # -*- sh -*-
 
 # history
@@ -28,24 +26,11 @@ setopt inc_append_history_time
 
 umask 077
 
-# if [ -e ~/.dircolors ]; then
-#     eval "$(dircolors -b ~/.dircolors)"
-#     alias ls="ls -F --color=auto"
-# fi
-
 # homebrew関係
-if command -v /usr/local/bin/brew &>/dev/null; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
 if command -v /opt/homebrew/bin/brew &>/dev/null; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# zsh-completions
-# brew install zsh-completions
-if command -v brew &>/dev/null; then
-  FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
-fi
 autoload -Uz compinit
 compinit
 zstyle ':completion:*:default' menu select=2
@@ -127,22 +112,9 @@ alias bi="bundle_install"
 alias bcn="bundle clean"
 alias ls="eza --time-style=long-iso --icons"
 
-# rbenv
-# brew install rbenv
-if command -v rbenv 1>/dev/null 2>&1; then
-  eval "$(rbenv init -)"
-fi
-
-# pyenv
-# brew install pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
-# nodenv
-# brew install nodenv
-if command -v nodenv 1>/dev/null 2>&1; then
-  eval "$(nodenv init -)"
+# mise
+if command -v mise 1>/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
 fi
 
 # starship
@@ -210,6 +182,3 @@ vterm_prompt_end() {
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
-# Kiro CLI post block. Keep at the bottom of this file.
-#[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
