@@ -24,7 +24,7 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;(setq! doom-font (font-spec :family "PlemolJP Console NF" :size 17))
-(setq! doom-font (font-spec :family "UDEV Gothic NF" :size 17))
+(setq doom-font (font-spec :family "UDEV Gothic NF" :size 17))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -34,17 +34,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq! doom-theme 'doom-dracula)
+(setq doom-theme 'doom-dracula)
 ;; フレームの色の指定
-(setq! frame-background-mode 'dark)
+(setq frame-background-mode 'dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq! display-line-numbers-type t)
+(setq display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq! org-directory "~/Documents/Org/")
+(setq org-directory "~/Documents/Org/")
 (setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
 ;; (after! org
 ;;   (setq! org-hide-leading-stars nil)
@@ -52,7 +52,7 @@
 (after! org
   (let ((new-template
          '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
-           "* %U\n%?\n%i" :prepend t)))
+           "* %U\n%i" :immediate-finish t :prepend t)))
     (unless (assoc "s" org-capture-templates)
       (setq org-capture-templates
             (cons new-template org-capture-templates)))))
@@ -99,7 +99,7 @@
 (setq system-time-locale "ja_JP.UTF-8")
 
 ;;; カレンダーの週の始まりを月曜日にする
-(setq! calendar-week-start-day 1)
+(setq calendar-week-start-day 1)
 
 ;;; macOSの設定
 (when (featurep :system 'macos)
@@ -108,11 +108,11 @@
 
 ;;; WSLの設定
 (when (featurep :system 'wsl)
-  (setq! migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
+  (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
         (cmd-args '("/c" "start")))
     (when (file-exists-p cmd-exe)
-      (setq! browse-url-generic-program  cmd-exe
+      (setq browse-url-generic-program  cmd-exe
              browse-url-generic-args     cmd-args
              browse-url-browser-function 'browse-url-generic
              search-web-default-browser  'browse-url-generic))))
@@ -122,8 +122,8 @@
   ;; Git for Windowsのfind.exeのPathを先頭に
   (setenv "PATH"
           (concat "c:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
-  (setq! exec-path (parse-colon-path (getenv "PATH")))
-  (setq! migemo-dictionary (concat migemo-directory "migemo-dict")))
+  (setq exec-path (parse-colon-path (getenv "PATH")))
+  (setq migemo-dictionary (concat migemo-directory "migemo-dict")))
 
 (when (display-graphic-p)
   (cond
@@ -144,12 +144,12 @@
    ))
 
 ;;; evilの挙動変更
-(setq! evil-split-window-below t         ; set splitbelow
+(setq evil-split-window-below t         ; set splitbelow
        evil-vsplit-window-right t        ; set splitright
        evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
        evil-want-C-h-delete t)
 (after! evil-escape
-  (setq! evil-escape-key-sequence "jk"))
+  (setq evil-escape-key-sequence "jk"))
 
 ;;; SKKまわりの設定
 (defun +skk-activate ()
@@ -208,14 +208,14 @@
        :i "C-j" nil))
 
 (after! gptel
-  (setq! gptel-default-mode 'org-mode)
+  (setq gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setq! gptel-model 'gpt-5.1)
-    (setq! gptel-backend (gptel-make-gh-copilot "Copilot")))
+    (setq gptel-model 'gpt-5.1)
+    (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
-    (setq! gptel-model 'gemini-flash-lite-latest)
-    (setq! gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
+    (setq gptel-model 'gemini-flash-lite-latest)
+    (setq gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
     (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
           (llm-tool-collection-get-all)))
@@ -227,25 +227,30 @@
   (setq +magit-open-windows-in-direction 'down))
 
 (after! gptel-magit
-  (setq! gptel-magit-commit-prompt
+  (setq gptel-magit-commit-prompt
          (concat gptel-magit-prompt-conventional-commits
                  "\n\nコメントは日本語で体言止めで出力すること")))
 
 (after! org-roam
-  (setq! org-roam-graph-viewer (executable-find "open")))
+  (setq org-roam-graph-viewer (executable-find "open")))
 
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
 
 (use-package! p2s
   :unless AT-OFFICE
-  :commands p2s-post-region-to-all-services
-  :custom p2s-max-length 300
+  :commands p2s-compose-post
+  :custom
+  (p2s-max-length 300)
+  (p2s-org-capture-key "s")
   :init
   (map! :leader
         :desc "Post the region to all SNS"
         "r r" #'p2s-post-region-to-all-services
         :desc "Post the line below to all SNS"
-        "r s" #'p2s-post-below-point-to-all-services))
+        "r s" #'p2s-post-below-point-to-all-services
+        :desc "Post Compose at the minibuffer"
+        "r p" #'p2s-compose-post
+        ))
 
 (use-package! copilot
   :commands copilot-mode
@@ -269,10 +274,10 @@
             (lambda ()
               (visual-line-mode 1)
               ))
-  (setq! gt-debug-p t)
-  (setq! gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
+  (setq gt-debug-p t)
+  (setq gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
                                  ("preserve_formatting" . "1")))
-  (setq! gt-default-translator
+  (setq gt-default-translator
          (gt-translator
           :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
           :engines (gt-deepl-engine :pro AT-OFFICE)
