@@ -239,6 +239,7 @@
 (use-package! p2s
   :unless AT-OFFICE
   :commands p2s-compose-post
+  :hook (p2s-post-mode . (lambda () (display-line-numbers-mode -1)))
   :config
   (set-popup-rule! "*p2s-compose*" :size 0.5 :select t :quit t)
   (evil-set-initial-state 'p2s-post-mode 'insert)
