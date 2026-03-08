@@ -144,7 +144,7 @@
    ))
 
 ;;; evilの挙動変更
-(setq evil-split-window-below t         ; set splitbelow
+(setopt evil-split-window-below t         ; set splitbelow
        evil-vsplit-window-right t        ; set splitright
        evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
        evil-want-C-h-delete t)
@@ -239,6 +239,9 @@
 (use-package! p2s
   :unless AT-OFFICE
   :commands p2s-compose-post
+  :config
+  (set-popup-rule! "*p2s-compose*" :size 0.5 :select t :quit t)
+  (evil-set-initial-state 'p2s-post-mode 'insert)
   :custom
   (p2s-max-length 300)
   (p2s-org-capture-key "s")
