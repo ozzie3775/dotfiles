@@ -15,5 +15,6 @@ config.keys = {
   { key = "x", mods = "SUPER", action = wezterm.action.SendKey({ key = "x", mods = "META" }) },
   { key = "¥", action = wezterm.action.SendKey({ key = "\\" }) },
 }
+config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL"
 
 return config
