@@ -241,7 +241,7 @@
   :commands p2s-compose-post
   :hook (p2s-post-mode . (lambda () (display-line-numbers-mode -1)))
   :config
-  (set-popup-rule! "*p2s-compose*" :size 0.5 :select t :quit t)
+  (set-popup-rule! "*p2s-compose*" :size 0.3 :select t)
   (evil-set-initial-state 'p2s-post-mode 'insert)
   :custom
   (p2s-max-length 300)
@@ -273,7 +273,7 @@
         :desc "Translate the region"
         "r t" #'gt-translate)
   :config
-  (set-popup-rule! "*gt-result*" :size 0.5 :select t :quit t)
+  (set-popup-rule! "*gt-result*" :size 0.3 :select t :quit t)
   (add-hook 'gt-buffer-render-init-hook
             (lambda ()
               (visual-line-mode 1)
