@@ -241,7 +241,7 @@
   :commands p2s-compose-post
   :hook (p2s-post-mode . (lambda () (display-line-numbers-mode -1)))
   :config
-  (set-popup-rule! "*p2s-compose*" :size 0.3 :select t)
+  (set-popup-rule! "*p2s-compose*" :size 0.42 :quit nil :select t :modeline t)
   (evil-set-initial-state 'p2s-post-mode 'insert)
   :custom
   (p2s-max-length 300)
