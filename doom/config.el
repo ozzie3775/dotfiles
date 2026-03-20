@@ -214,7 +214,7 @@
     (setq gptel-model 'gpt-5.1)
     (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
-    (setq gptel-model 'gemini-flash-lite-latest)
+    (setq gptel-model 'gemini-flash-latest)
     (setq gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
     (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
@@ -239,7 +239,9 @@
 (use-package! p2s
   :unless AT-OFFICE
   :commands p2s-compose-post
-  :hook (p2s-post-mode . (lambda () (display-line-numbers-mode -1)))
+  :hook (p2s-post-mode . (lambda ()
+                           (display-line-numbers-mode -1)
+                           (adaptive-wrap-prefix-mode -1)))
   :config
   (set-popup-rule! "*p2s-compose*" :size 0.42 :quit nil :select t :modeline t)
   (evil-set-initial-state 'p2s-post-mode 'insert)
