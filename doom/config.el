@@ -24,7 +24,7 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;(setq! doom-font (font-spec :family "PlemolJP Console NF" :size 17))
-(setq doom-font (font-spec :family "UDEV Gothic NF" :size 17))
+(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 17))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -34,13 +34,13 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setopt doom-theme 'doom-dracula)
 ;; フレームの色の指定
-(setq frame-background-mode 'dark)
+(setopt frame-background-mode 'dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setopt display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -93,13 +93,13 @@
   (file-exists-p (expand-file-name ".at-office" doom-user-dir)))
 
 ;; 終了時確認しない
-(setq confirm-kill-emacs nil)
+(setopt confirm-kill-emacs nil)
 
 ;;; 日付表記を日本語に
 (setq system-time-locale "ja_JP.UTF-8")
 
 ;;; カレンダーの週の始まりを月曜日にする
-(setq calendar-week-start-day 1)
+(setopt calendar-week-start-day 1)
 
 ;;; macOSの設定
 (when (featurep :system 'macos)
@@ -145,11 +145,11 @@
 
 ;;; evilの挙動変更
 (setopt evil-split-window-below t         ; set splitbelow
-       evil-vsplit-window-right t        ; set splitright
-       evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
-       evil-want-C-h-delete t)
+        evil-vsplit-window-right t        ; set splitright
+        evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
+        evil-want-C-h-delete t)
 (after! evil-escape
-  (setq evil-escape-key-sequence "jk"))
+  (setopt evil-escape-key-sequence "jk"))
 
 ;;; SKKまわりの設定
 (defun +skk-activate ()
