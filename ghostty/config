@@ -2,4 +2,8 @@ font-family = "UDEV Gothic NF"
 font-size = 17
 keybind = ctrl+m=text:\x0d
 keybind = ctrl+i=text:\x09
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:down
+keybind = alt+k=goto_split:up
+keybind = alt+l=goto_split:right
 theme = Dracula
