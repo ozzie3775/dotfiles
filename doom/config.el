@@ -244,7 +244,7 @@
                            (adaptive-wrap-prefix-mode -1)))
   :config
   (set-popup-rule! "*p2s-compose*" :size 0.42 :quit nil :select t :modeline t)
-  (evil-set-initial-state 'p2s-post-mode 'insert)
+  (evil-set-initial-state 'p2s-post-mode 'emacs)
   :custom
   (p2s-max-length 300)
   (p2s-org-capture-key "s")
