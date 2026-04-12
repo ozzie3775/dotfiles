@@ -41,15 +41,17 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setopt display-line-numbers-type t)
+;; テキストモードのときは行番号は要らない
+(remove-hook! 'text-mode-hook #'display-line-numbers-mode)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org/")
+(setopt org-modern-star 'replace)
+(setopt org-modern-replace-stars "󰎥󰎨󰎫󰎲󰎯")
 (setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
-;; (after! org
-;;   (setq! org-hide-leading-stars nil)
-;;   (setq! org-startup-indented nil))
 (after! org
+  (setopt org-startup-indented nil)
   (let ((new-template
          '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
            "* %U\n%i" :immediate-finish t :prepend t)))
