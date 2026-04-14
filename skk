@@ -10,7 +10,7 @@
 
 (setq skk-show-inline 'vertical)
 
-(setq skk-large-jisyo "~/.config/emacs/.local/skk/SKK-JISYO.L")
+;; (setq skk-large-jisyo "~/.config/emacs/.local/skk/SKK-JISYO.L")
 (setq skk-itaiji-jisyo "~/.config/emacs/.local/skk/SKK-JISYO.itaiji")
 (setq skk-extra-jisyo-file-list
    '("~/.config/emacs/.local/skk/SKK-JISYO.geo"
