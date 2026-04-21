@@ -37,12 +37,15 @@
 (setopt doom-theme 'doom-dracula)
 ;; フレームの色の指定
 (setopt frame-background-mode 'dark)
-
+(blink-cursor-mode 1)
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setopt display-line-numbers-type t)
 ;; テキストモードのときは行番号は要らない
 (remove-hook! 'text-mode-hook #'display-line-numbers-mode)
+
+;;; ======================================================================
+;;; Org-mode
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -50,14 +53,31 @@
 (setopt org-modern-star 'replace)
 (setopt org-modern-replace-stars "󰎥󰎨󰎫󰎲󰎯")
 (setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
+
 (after! org
+  ;; lang/org/config.elの+org-init-appearance-hで定義されていいるものを上書き
   (setopt org-startup-indented nil)
+  ;; p2s用テンプレート定義
   (let ((new-template
          '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
            "* %U\n%i" :immediate-finish t :prepend t)))
     (unless (assoc "s" org-capture-templates)
       (setq org-capture-templates
             (cons new-template org-capture-templates)))))
+
+;; lang/org/config.elのuse-package! evil-orgの上書き
+(after! evil-org
+  (map! :map evil-org-mode-map
+        ;; C-jはSKKで使いたい
+        :i "C-j" nil
+
+        :map org-read-date-minibuffer-local-map
+        ;; C-hはDELに置き換えているのでDELで上書き
+        "DEL" (cmd! (org-eval-in-calendar '(calendar-backward-day 1)))))
+
+(after! org-roam
+  (setq org-roam-graph-viewer (executable-find "open")))
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -91,42 +111,29 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;;; ======================================================================
+;;; 雑多な設定
+
+;; ロードパスの追加
+(add-load-path! (expand-file-name "lisp/" doom-user-dir))
+
+;; キーバインド
+(define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+
+;; 会社環境？
 (defconst AT-OFFICE
   (file-exists-p (expand-file-name ".at-office" doom-user-dir)))
 
 ;; 終了時確認しない
 (setopt confirm-kill-emacs nil)
 
-;;; 日付表記を日本語に
+;; 日付表記を日本語に
 (setq system-time-locale "ja_JP.UTF-8")
 
-;;; カレンダーの週の始まりを月曜日にする
+;; カレンダーの週の始まりを月曜日にする
 (setopt calendar-week-start-day 1)
 
-;;; macOSの設定
-(when (featurep :system 'macos)
-  (require 'ucs-normalize)
-  (set-file-name-coding-system 'utf-8-hfs))
-
-;;; WSLの設定
-(when (featurep :system 'wsl)
-  (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
-  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-        (cmd-args '("/c" "start")))
-    (when (file-exists-p cmd-exe)
-      (setq browse-url-generic-program  cmd-exe
-             browse-url-generic-args     cmd-args
-             browse-url-browser-function 'browse-url-generic
-             search-web-default-browser  'browse-url-generic))))
-
-;;; Windowsの設定
-(when (featurep :system 'windows)
-  ;; Git for Windowsのfind.exeのPathを先頭に
-  (setenv "PATH"
-          (concat "c:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
-  (setq exec-path (parse-colon-path (getenv "PATH")))
-  (setq migemo-dictionary (concat migemo-directory "migemo-dict")))
-
+;; モニターサイズごとのウィンドウサイズ設定
 (when (display-graphic-p)
   (cond
    ((> (display-mm-height) 320)
@@ -145,21 +152,55 @@
     (add-to-list 'default-frame-alist '(height . 38)))
    ))
 
+;;; ======================================================================
+;;; OS固有設定
+
+;; macOSの設定
+(when (featurep :system 'macos)
+  (require 'ucs-normalize)
+  (set-file-name-coding-system 'utf-8-hfs))
+
+;; WSLの設定
+(when (featurep :system 'wsl)
+  (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic
+            search-web-default-browser  'browse-url-generic))))
+
+;; Windowsの設定
+(when (featurep :system 'windows)
+  ;; Git for Windowsのfind.exeのPathを先頭に
+  (setenv "PATH"
+          (concat "c:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
+  (setq exec-path (parse-colon-path (getenv "PATH")))
+  (setq migemo-dictionary (concat migemo-directory "migemo-dict")))
+
+;;; ======================================================================
 ;;; evilの挙動変更
+
 (setopt evil-split-window-below t         ; set splitbelow
         evil-vsplit-window-right t        ; set splitright
         evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
-        evil-want-C-h-delete t)
+        )
 (after! evil-escape
   (setopt evil-escape-key-sequence "jk"))
 
+;;; ======================================================================
 ;;; SKKまわりの設定
+
 (defun +skk-activate ()
   (interactive)
   (if (bound-and-true-p skk-mode)
       (skk-kakutei)
     (skk-mode)
     ))
+(map! :ei "C-j" #'+skk-activate
+      ;; C-gはSKKへ
+      :i "C-g" nil)
 
 ;; insertモードから出るときにSKKをlatin-modeにする
 (add-hook 'evil-insert-state-exit-hook
@@ -169,46 +210,15 @@
 
 ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
 (remove-hook 'text-mode-hook #'pangu-spacing-mode)
+;; input/japanese/config.elでaddされているhookを削除する
+;; （これだとC-gしたらSKKが終了してしまう）
+(after! skk
+  (remove-hook! 'doom-escape-hook #'skk-mode-exit))
 
-;;; キーバインド
-(map! :ei "C-j" #'+skk-activate
-      :e "C-h" #'delete-backward-char
+;;; ======================================================================
+;;; パッケージ固有設定
 
-      (:after evil
-       :map (evil-ex-completion-map evil-ex-search-keymap)
-       "C-h" #'evil-ex-delete-backward-char)
-
-      (:after isearch
-       :map isearch-mode-map
-       "C-h" #'isearch-delete-char)
-
-      (:map minibuffer-local-map
-            "C-h" #'delete-backward-char)
-
-      ;; completion/vertico/config.elでvertico-directory-upと定義されているので上書きする
-      (:after vertico
-       :map vertico-map
-       "C-h" #'vertico-directory-delete-char)
-
-      ;; config/default/+evil-bindings.elでcorfu-popupinfo-toggleと定義されているのでnilにしておく
-      (:after corfu-popupinfo
-       :map corfu-popupinfo-map
-       "C-h" nil)
-
-      (:after vterm
-       :map vterm-mode-map
-       :i "C-h" #'vterm--self-insert)
-
-      (:after skk
-       :map skk-j-mode-map
-       "C-h" #'skk-delete-backward-char)
-
-      ;; lang/org/config.elで定義されているのでnilにしておく
-      (:after evil-org
-       :map evil-org-mode-map
-       :i "C-h" nil
-       :i "C-j" nil))
-
+;; gptel
 (after! gptel
   (setq gptel-default-mode 'org-mode)
   (cond
@@ -225,19 +235,16 @@
 (use-package! llm-tool-collection
   :commands llm-tool-collection-get-all)
 
+;; magit
 (after! magit
   (setq +magit-open-windows-in-direction 'down))
 
 (after! gptel-magit
   (setq gptel-magit-commit-prompt
-         (concat gptel-magit-prompt-conventional-commits
-                 "\n\nコメントは日本語で体言止めで出力すること")))
+        (concat gptel-magit-prompt-conventional-commits
+                "\n\nコメントは日本語で体言止めで出力すること")))
 
-(after! org-roam
-  (setq org-roam-graph-viewer (executable-find "open")))
-
-(add-load-path! (expand-file-name "lisp/" doom-user-dir))
-
+;; p2s
 (use-package! p2s
   :unless AT-OFFICE
   :commands p2s-compose-post
@@ -257,9 +264,9 @@
         :desc "Post the line below to all SNS"
         "r s" #'p2s-post-below-point-to-all-services
         :desc "Post Compose at the minibuffer"
-        "r p" #'p2s-compose-post
-        ))
+        "r p" #'p2s-compose-post))
 
+;; Github copilot
 (use-package! copilot
   :commands copilot-mode
   :bind (:map copilot-completion-map
@@ -270,6 +277,7 @@
   :config
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
+;; gt
 (use-package! gt
   :commands (gt-translate gt-translator)
   :init
@@ -280,16 +288,18 @@
   (set-popup-rule! "*gt-result*" :size 0.3 :select t :quit t)
   (add-hook 'gt-buffer-render-init-hook
             (lambda ()
-              (visual-line-mode 1)
-              ))
+              (visual-line-mode 1)))
   (setq gt-debug-p t)
   (setq gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
-                                 ("preserve_formatting" . "1")))
+                                ("preserve_formatting" . "1")))
   (setq gt-default-translator
-         (gt-translator
-          :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
-          :engines (gt-deepl-engine :pro AT-OFFICE)
-          :render (gt-buffer-render))))
+        (gt-translator
+         :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
+         :engines (gt-deepl-engine :pro AT-OFFICE)
+         :render (gt-buffer-render))))
+
+;;; ======================================================================
+;;; 自作関数
 
 (defun +convert-md-to-org-region (start end)
   "Convert Markdown in region to Org format using pandoc."
