@@ -44,14 +44,14 @@
 ;; テキストモードのときは行番号は要らない
 (remove-hook! 'text-mode-hook #'display-line-numbers-mode)
 
-;;; ======================================================================
-;;; Org-mode
+;;;; ======================================================================
+;;;; Org-mode
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org/")
 (setopt org-modern-star 'replace)
-(setopt org-modern-replace-stars "󰎥󰎨󰎫󰎲󰎯")
+(setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
 (setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
 
 (after! org
@@ -190,8 +190,9 @@
   (setopt evil-escape-key-sequence "jk"))
 
 ;;; ======================================================================
-;;; SKKまわりの設定
+;;; Doomパッケージ設定
 
+;;; input -> japanese (SKK)
 (defun +skk-activate ()
   (interactive)
   (if (bound-and-true-p skk-mode)
@@ -208,17 +209,15 @@
             (when (bound-and-true-p skk-mode)
               (skk-latin-mode-on))))
 
-;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
-(remove-hook 'text-mode-hook #'pangu-spacing-mode)
 ;; input/japanese/config.elでaddされているhookを削除する
 ;; （これだとC-gしたらSKKが終了してしまう）
 (after! skk
-  (remove-hook! 'doom-escape-hook #'skk-mode-exit))
+  (remove-hook 'doom-escape-hook #'skk-mode-exit))
 
-;;; ======================================================================
-;;; パッケージ固有設定
+;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
+(remove-hook 'text-mode-hook #'pangu-spacing-mode)
 
-;; gptel
+;; tools -> llm (gptel)
 (after! gptel
   (setq gptel-default-mode 'org-mode)
   (cond
@@ -232,10 +231,7 @@
   (mapcar (apply-partially #'apply #'gptel-make-tool)
           (llm-tool-collection-get-all)))
 
-(use-package! llm-tool-collection
-  :commands llm-tool-collection-get-all)
-
-;; magit
+;; tools -> magit
 (after! magit
   (setq +magit-open-windows-in-direction 'down))
 
@@ -243,6 +239,12 @@
   (setq gptel-magit-commit-prompt
         (concat gptel-magit-prompt-conventional-commits
                 "\n\nコメントは日本語で体言止めで出力すること")))
+
+;;; ======================================================================
+;;; 非Doomパッケージ設定
+
+(use-package! llm-tool-collection
+  :commands llm-tool-collection-get-all)
 
 ;; p2s
 (use-package! p2s
