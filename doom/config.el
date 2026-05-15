@@ -173,11 +173,7 @@
 
 ;; Windowsの設定
 (when (featurep :system 'windows)
-  ;; Git for Windowsのfind.exeのPathを先頭に
-  (setenv "PATH"
-          (concat "c:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
-  (setq exec-path (parse-colon-path (getenv "PATH")))
-  (setq migemo-dictionary (concat migemo-directory "migemo-dict")))
+  (set-language-environment "UTF-8"))
 
 ;;; ======================================================================
 ;;; evilの挙動変更
