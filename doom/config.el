@@ -173,8 +173,13 @@
 
 ;; Windowsの設定
 (when (featurep :system 'windows)
-  (set-language-environment "UTF-8"))
-
+  (set-language-environment "UTF-8")
+  (after! org-download
+    (setq org-download-screenshot-method "magick clipboard: %s")
+    (defun org-download-clipboard (&optional basename)
+      (interactive)
+      (org-id-get-create)
+      (org-download-screenshot basename))))
 ;;; ======================================================================
 ;;; evilの挙動変更
 
