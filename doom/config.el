@@ -223,7 +223,7 @@
   (setq gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setq gptel-model 'gpt-5.1)
+    (setq gptel-model 'gpt-5.3-codex)
     (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
     (setq gptel-model 'gemini-flash-latest)
