@@ -56,7 +56,7 @@
 
 (after! org
   ;; lang/org/config.elの+org-init-appearance-hで定義されていいるものを上書き
-  (setopt org-startup-indented nil)
+  ;; (setopt org-startup-indented nil)
   ;; p2s用テンプレート定義
   (let ((new-template
          '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
@@ -263,11 +263,13 @@
   :init
   (map! :leader
         :desc "Post the region to all SNS"
-        "r r" #'p2s-post-region-to-all-services
+        "r R" #'p2s-post-region-to-all-services
         :desc "Post the line below to all SNS"
         "r s" #'p2s-post-below-point-to-all-services
         :desc "Post Compose at the minibuffer"
-        "r p" #'p2s-compose-post))
+        "r p" #'p2s-compose-post
+        :desc "Reply Compose at the minibuffer"
+        "r r" #'p2s-compose-reply))
 
 ;; Github copilot
 (use-package! copilot
