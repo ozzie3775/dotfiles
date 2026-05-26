@@ -223,6 +223,7 @@
   (setq gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
+    (setq gptel-use-curl nil)
     (setq gptel-model 'gpt-5.3-codex)
     (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
