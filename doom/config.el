@@ -174,6 +174,8 @@
 ;; Windowsの設定
 (when (featurep :system 'windows)
   (set-language-environment "UTF-8")
+  (after! pcmpl-args
+    (fset 'pcmpl-args-extract-argspecs-from-manpage #'ignore))
   (after! org-download
     (setq org-download-screenshot-method "magick clipboard: %s")
     (defun org-download-clipboard (&optional basename)
