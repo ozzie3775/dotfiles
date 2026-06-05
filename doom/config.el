@@ -52,18 +52,8 @@
 (setq org-directory "~/Documents/Org/")
 (setopt org-modern-star 'replace)
 (setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
-(setq +org-capture-post-file (expand-file-name "posts.org" org-directory))
 
-(after! org
-  ;; lang/org/config.elの+org-init-appearance-hで定義されていいるものを上書き
-  ;; (setopt org-startup-indented nil)
-  ;; p2s用テンプレート定義
-  (let ((new-template
-         '("s" "Post to SNS" entry (file+olp+datetree +org-capture-post-file)
-           "* %U\n%i" :immediate-finish t :prepend t)))
-    (unless (assoc "s" org-capture-templates)
-      (setq org-capture-templates
-            (cons new-template org-capture-templates)))))
+(add-to-list 'safe-local-variable-directories org-directory)
 
 ;; lang/org/config.elのuse-package! evil-orgの上書き
 (after! evil-org
@@ -229,7 +219,7 @@
     (setq gptel-model 'gpt-5.3-codex)
     (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
-    (setq gptel-model 'gemini-flash-latest)
+    (setq gptel-model 'gemini-flash-lite-latest)
     (setq gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
     (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
