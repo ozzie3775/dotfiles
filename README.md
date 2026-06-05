@@ -1,41 +1,78 @@
 # dotfiles
 
-My personal Emacs configuration managed with [Doom Emacs](https://github.com/hlissner/doom-emacs).
+My personal configuration files (dotfiles) for a productive development environment on macOS and Linux.
 
-This configuration is tailored for a development workflow heavily involving **Lisp (Emacs Lisp, Clojure, Racket)**, **Org mode**, **AI tooling (GPT/Gemini via `gptel`)**, and **version control (Magit)**, optimized for a Japanese language environment (`SKK`).
+This repository contains configurations for various tools including **Doom Emacs**, **Zsh**, **Tmux**, **Vim**, and modern terminal emulators like **WezTerm** and **Ghostty**. The environment is optimized for Japanese input (`SKK`), AI-assisted development, and Lisp-centric workflows.
 
 ## Features
 
-- **Emacs Distribution:** Doom Emacs
-- **Theme:** Dracula (`doom-dracula`)
-- **Font:** UDEV Gothic NF
-- **Line Numbers:** Relative
-- **AI Integration:** `gptel` configured for a mix of Copilot (at office) and Gemini/Claude (remote).
-- **SKK Configuration:** Custom activation hooks for smooth input switching.
-- **Keybindings:** Heavily customized, particularly around `C-h` (backspace) and leader bindings for `p2s` (social posting) and `gt` (translation).
-- **Org Mode:** Integration with `org-roam` and `pandoc` for conversion.
+- **Shell:** Zsh with [Starship](https://starship.rs/) prompt.
+- **Terminal:** [WezTerm](https://wezfurlong.org/wezterm/) and [Ghostty](https://ghostty.org/) with UDEV Gothic NF font.
+- **Editor:** [Doom Emacs](https://github.com/hlissner/doom-emacs) (Primary) and Vim (Secondary).
+- **Multiplexer:** Tmux with [TPM](https://github.com/tmux-plugins/tpm).
+- **Theme:** Consistent [Dracula](https://draculatheme.com/) theme across most tools.
+- **Japanese Input:** Custom SKK configuration.
+- **AI Integration:** `gptel` in Emacs for Gemini/Claude/Copilot.
+
+## Repository Structure
+
+- `doom/`: Doom Emacs configuration (`init.el`, `config.el`, `packages.el`).
+- `zshrc`: Zsh configuration.
+- `tmux.conf`: Tmux configuration.
+- `vimrc`: Vim configuration.
+- `wezterm/`: WezTerm configuration.
+- `ghostty/`: Ghostty configuration.
+- `starship.toml`: Starship prompt configuration.
+- `bat/`: `bat` (cat clone with wings) configuration.
+- `skk`: SKK dictionary and behavior settings.
 
 ## Setup
 
-1.  **Clone/Link:** Clone this repository to your desired location (e.g., `~/.dotfiles`).
-2.  **Doom Emacs Setup:** Ensure you have Doom Emacs installed.
-3.  **Configuration Location:** Make sure your Doom Emacs configuration directory points to this repository's `doom` directory (usually `~/.doom.d/` or equivalent).
-4.  **Sync Packages:** Run `doom sync` in the terminal.
-5.  **Environment Variables:** Set up necessary API keys (e.g., for `gptel`) in your environment or configuration files if required.
+1.  **Clone:**
+    ```bash
+    git clone https://github.com/ozzie3775/dotfiles.git ~/.dotfiles
+    ```
+2.  **Symlink (Example):**
+    You can use a tool like `stow` or manually link files:
+    ```bash
+    ln -s ~/.dotfiles/zshrc ~/.zshrc
+    ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
+    # etc.
+    ```
 
-### System-Specific Configurations
+## Tool Specifics
 
-This setup includes logic for different environments:
+### Doom Emacs
 
--   **macOS:** Handles file system encoding (`utf-8-hfs`).
--   **WSL/Windows:** Configures `browse-url` and `PATH` environment variables for accessing Windows executables/paths from the Linux environment.
--   **Display Scaling:** Custom frame sizes are set based on screen height (e.g., for 5K monitors).
+My primary environment tailored for **Lisp (Emacs Lisp, Clojure, Racket)**, **Org mode**, **AI tooling**, and **version control (Magit)**.
 
-## Custom Packages
+- **AI Integration:** `gptel` configured for a mix of Copilot (at office) and Gemini/Claude (remote).
+- **Keybindings:** Heavily customized, particularly around `C-h` (backspace) and leader bindings for `p2s` (social posting) and `gt` (translation).
+- **Org Mode:** Integration with `org-roam` and `pandoc` for conversion.
 
-The following external packages are managed in `packages.el`:
+For more details, see the `doom/` directory.
 
--   `p2s`: For posting text regions to social media services.
--   `copilot`: GitHub Copilot integration.
--   `llm-tool-collection`: Tools collection for `gptel`.
--   `gt`: Translation utility (using DeepL).
+### Zsh & Starship
+
+- **Keybindings:** Emacs-style keybindings (`bindkey -e`).
+- **Prompt:** Managed by Starship, providing a fast and informative status line.
+
+### Tmux
+
+- **Prefix:** Changed from `C-b` to `C-t`.
+- **Plugins:** Managed via TPM, including `tmux-sensible`, `tmux-open`, and `tmux-pain-control`.
+
+### Terminal (WezTerm / Ghostty)
+
+- **Font:** UDEV Gothic NF.
+- **Theme:** Dracula.
+- **Features:** Optimized for high-resolution displays (e.g., 5K monitors).
+
+### Vim
+
+- **Plugins:** Managed by `vim-plug`.
+- **LSP:** Configured with `vim-lsp` for intelligent coding support.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
