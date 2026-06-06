@@ -221,7 +221,9 @@
    (t
     (setq gptel-model 'gemini-flash-lite-latest)
     (setq gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
-    (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)))
+    (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)
+    (gptel-make-ollama "Ollama" :host "localhost:11434" :stream t :models '(deepseek-coder-v2:16b))
+    ))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
           (llm-tool-collection-get-all)))
 
