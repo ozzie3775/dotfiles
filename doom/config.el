@@ -252,7 +252,7 @@
 ;;; 非Doomパッケージ設定
 
 ;; p2s
-(use-package! p2s
+(use-package p2s
   :unless AT-OFFICE
   :commands p2s-compose-post
   :hook (p2s-post-mode . (lambda ()
@@ -276,7 +276,7 @@
         "r r" #'p2s-compose-reply))
 
 ;; Github copilot
-(use-package! copilot
+(use-package copilot
   :commands copilot-mode
   :bind (:map copilot-completion-map
               ("<tab>"   . 'copilot-accept-completion)
@@ -287,7 +287,8 @@
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
 ;; gt
-(use-package! gt
+(use-package gt
+  :unless AT-OFFICE
   :commands (gt-translate gt-translator)
   :init
   (map! :leader
@@ -304,9 +305,10 @@
   (setq gt-default-translator
         (gt-translator
          :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
-         :engines (gt-deepl-engine :pro AT-OFFICE)
+         :engines (gt-google-engine)
          :render (gt-buffer-render))))
 
+;; gptel-agent
 (use-package gptel-agent
   :config (gptel-agent-update))
 ;;; ======================================================================
