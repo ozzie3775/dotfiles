@@ -215,25 +215,27 @@
   (setq gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setq gptel-use-curl nil)
-    (setq gptel-model 'gpt-5.3-codex)
-    (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
+    (setopt gptel-use-curl nil)
+    (setopt gptel-model 'gpt-5.3-codex)
+    (setopt gptel-backend '(gptel--gh "Copilot")))
    (t
-    (setq gptel-model 'gemini-flash-lite-latest)
-    (setq gptel-backend (gptel-make-gemini "Gemini"
-                          :key gptel-api-key
-                          :stream t))
+    (setopt gptel-model 'gemini-flash-lite-latest)
+    (setopt gptel-backend '(gptel-gemini "Gemini"
+                            :key gptel-api-key
+                            :stream t))
+    (gptel-make-gh-copilot "Copilot")
     (gptel-make-anthropic "Claude"
       :key gptel-api-key
       :stream t)
-    (gptel-make-ollama "DeepSeek"
+    (gptel-make-ollama "Ollama"
       :host "localhost:11434"
       :stream t
-      :models '(deepseek-coder-v2:16b))
-    (gptel-make-ollama "Qwen3"
+      :models '(codellama qwen2.5-coder:14b deepseek-coder-v2:16b))
+    (gptel-make-openai "apfel"
       :host "localhost:11434"
       :stream t
-      :models '(qwen3:4b-instruct))
+      :protocol "http"
+      :models '(apple-foundationmodel))
     )))
 
 ;; tools -> magit
