@@ -58,3 +58,5 @@
   :recipe (:host github :repo "skissue/llm-tool-collection" :files ("*.el")))
 
 (package! gt)
+
+(package! gptel-agent)

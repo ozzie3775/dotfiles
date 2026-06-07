@@ -220,9 +220,20 @@
     (setq gptel-backend (gptel-make-gh-copilot "Copilot")))
    (t
     (setq gptel-model 'gemini-flash-lite-latest)
-    (setq gptel-backend (gptel-make-gemini "Gemini" :key gptel-api-key :stream t))
-    (gptel-make-anthropic "Claude" :key gptel-api-key :stream t)
-    (gptel-make-ollama "Ollama" :host "localhost:11434" :stream t :models '(deepseek-coder-v2:16b))
+    (setq gptel-backend (gptel-make-gemini "Gemini"
+                          :key gptel-api-key
+                          :stream t))
+    (gptel-make-anthropic "Claude"
+      :key gptel-api-key
+      :stream t)
+    (gptel-make-ollama "DeepSeek"
+      :host "localhost:11434"
+      :stream t
+      :models '(deepseek-coder-v2:16b))
+    (gptel-make-ollama "Qwen3"
+      :host "localhost:11434"
+      :stream t
+      :models '(qwen3:4b-instruct))
     ))
   (mapcar (apply-partially #'apply #'gptel-make-tool)
           (llm-tool-collection-get-all)))
@@ -232,10 +243,12 @@
   (setq +magit-open-windows-in-direction 'down))
 
 (after! gptel-magit
+  (setq gptel-magit-model 'gemini-flash-lite-latest)
   (setq gptel-magit-commit-prompt
         (concat gptel-magit-prompt-conventional-commits
                 "\n\nコメントは日本語で体言止めで出力すること")))
 
+(setopt +word-wrap-fill-style 'soft)
 ;;; ======================================================================
 ;;; 非Doomパッケージ設定
 
@@ -298,6 +311,8 @@
          :engines (gt-deepl-engine :pro AT-OFFICE)
          :render (gt-buffer-render))))
 
+(use-package gptel-agent
+  :config (gptel-agent-update))
 ;;; ======================================================================
 ;;; 自作関数
 
