@@ -234,16 +234,15 @@
       :host "localhost:11434"
       :stream t
       :models '(qwen3:4b-instruct))
-    ))
-  (mapcar (apply-partially #'apply #'gptel-make-tool)
-          (llm-tool-collection-get-all)))
+    )))
 
 ;; tools -> magit
 (after! magit
   (setq +magit-open-windows-in-direction 'down))
 
 (after! gptel-magit
-  (setq gptel-magit-model 'gemini-flash-lite-latest)
+  (unless AT-OFFICE
+      (setq gptel-magit-model 'gemini-flash-lite-latest))
   (setq gptel-magit-commit-prompt
         (concat gptel-magit-prompt-conventional-commits
                 "\n\nコメントは日本語で体言止めで出力すること")))
@@ -251,9 +250,6 @@
 (setopt +word-wrap-fill-style 'soft)
 ;;; ======================================================================
 ;;; 非Doomパッケージ設定
-
-(use-package! llm-tool-collection
-  :commands llm-tool-collection-get-all)
 
 ;; p2s
 (use-package! p2s
