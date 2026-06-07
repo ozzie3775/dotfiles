@@ -298,14 +298,14 @@
   (set-popup-rule! "*gt-result*" :size 0.3 :select t :quit t)
   (add-hook 'gt-buffer-render-init-hook
             (lambda ()
-              (visual-line-mode 1)))
+              (+word-wrap-mode 1)))
   (setq gt-debug-p t)
   (setq gt-deepl-extra-params '(("split_sentences"     . "nonewlines")
                                 ("preserve_formatting" . "1")))
   (setq gt-default-translator
         (gt-translator
          :taker (gt-taker :langs '(en ja) :text 'paragraph :pick nil)
-         :engines (gt-google-engine)
+         :engines (gt-bing-engine)
          :render (gt-buffer-render))))
 
 ;; gptel-agent
