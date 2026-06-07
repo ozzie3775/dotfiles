@@ -212,7 +212,7 @@
 
 ;; tools -> llm (gptel)
 (after! gptel
-  (setq gptel-default-mode 'org-mode)
+  (setopt gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
     (setopt gptel-use-curl nil)
@@ -249,7 +249,13 @@
         (concat gptel-magit-prompt-conventional-commits
                 "\n\nコメントは日本語で体言止めで出力すること")))
 
+;; word-wrap
 (setopt +word-wrap-fill-style 'soft)
+
+;; elfeed
+(after! elfeed
+  (setq elfeed-show-entry-delete #'ignore))
+
 ;;; ======================================================================
 ;;; 非Doomパッケージ設定
 
