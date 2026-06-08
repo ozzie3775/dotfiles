@@ -48,12 +48,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! p2s
-  :recipe (:host github :repo "ozzie3775/p2s"))
-
-(package! copilot
-  :recipe (:host github :repo "copilot-emacs/copilot.el"))
-
+(package! p2s :recipe (:host github :repo "ozzie3775/p2s"))
+(package! copilot)
 (package! gt)
-
 (package! gptel-agent)
