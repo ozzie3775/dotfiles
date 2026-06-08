@@ -255,10 +255,12 @@
 ;; elfeed
 (after! elfeed
   (setq elfeed-search-remain-on-entry t) ; 記事を開いた時に一行進まないようにする
-  (setopt elfeed-goodies/entry-pane-size 0.75)
+  (setopt elfeed-goodies/entry-pane-size 0.8)
   (setopt elfeed-goodies/entry-pane-position 'bottom)
   (map! :map elfeed-search-mode-map
         :n "q" #'+rss-cleanup-h
+        :n "C-j" #'elfeed-goodies/split-show-next
+        :n "C-k" #'elfeed-goodies/split-show-prev
 
         :map elfeed-show-mode-map
         :n "C-j" #'elfeed-goodies/split-show-next
