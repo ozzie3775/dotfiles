@@ -57,5 +57,3 @@
 (package! gt)
 
 (package! gptel-agent)
-
-(package! elfeed-goodies :disable t)

@@ -217,7 +217,7 @@
    (AT-OFFICE
     (setopt gptel-use-curl nil)
     (setopt gptel-model 'gpt-5.3-codex)
-    (setopt gptel-backend '(gptel--gh "Copilot")))
+    (setopt gptel-backend '(gptel-gh "Copilot")))
    (t
     (setopt gptel-model 'gemini-flash-lite-latest)
     (setopt gptel-backend '(gptel-gemini "Gemini"
@@ -254,7 +254,20 @@
 
 ;; elfeed
 (after! elfeed
-  (setq elfeed-show-entry-delete #'ignore))
+  (setq elfeed-search-remain-on-entry t) ; 記事を開いた時に一行進まないようにする
+  (setopt elfeed-goodies/entry-pane-size 0.75)
+  (setopt elfeed-goodies/entry-pane-position 'bottom)
+  (map! :map elfeed-search-mode-map
+        :n "q" #'+rss-cleanup-h
+
+        :map elfeed-show-mode-map
+        :n "C-j" #'elfeed-goodies/split-show-next
+        :n "C-k" #'elfeed-goodies/split-show-prev
+        ))
+
+;; centaur-tabs
+(after! centaur-tabs
+  (add-to-list 'centaur-tabs-excluded-prefixes "*elfeed"))
 
 ;;; ======================================================================
 ;;; 非Doomパッケージ設定
