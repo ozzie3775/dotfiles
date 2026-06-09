@@ -35,6 +35,20 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setopt doom-theme 'doom-dracula)
+(setopt doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+(setopt doom-themes-enable-italic t) ; if nil, italics is universally disabled
+(setopt doom-themes-treemacs-theme "doom-colors")
+(setopt doom-dracula-brighter-modeline nil)
+(setopt doom-dracula-brighter-comments nil)
+(setopt doom-dracula-colorful-headers t)
+(setopt doom-themes-padded-modeline nil)
+;; Enable flashing mode-line on errors
+(doom-themes-visual-bell-config)
+;; or for treemacs users
+(doom-themes-treemacs-config)
+;; Corrects (and improves) org-mode's native fontification.
+(doom-themes-org-config)
+
 ;; フレームの色の指定
 (setopt frame-background-mode 'dark)
 (blink-cursor-mode 1)
@@ -286,7 +300,6 @@
   (evil-set-initial-state 'p2s-post-mode 'emacs)
   :custom
   (p2s-max-length 300)
-  (p2s-org-capture-key "s")
   :init
   (map! :leader
         :desc "Post the region to all SNS"
@@ -334,6 +347,7 @@
 ;; gptel-agent
 (use-package gptel-agent
   :config (gptel-agent-update))
+
 ;;; ======================================================================
 ;;; 自作関数
 
