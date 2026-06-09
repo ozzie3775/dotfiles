@@ -37,17 +37,12 @@
 (setopt doom-theme 'doom-dracula)
 (setopt doom-themes-enable-bold t)   ; if nil, bold is universally disabled
 (setopt doom-themes-enable-italic t) ; if nil, italics is universally disabled
-(setopt doom-themes-treemacs-theme "doom-colors")
 (setopt doom-dracula-brighter-modeline nil)
 (setopt doom-dracula-brighter-comments nil)
 (setopt doom-dracula-colorful-headers t)
 (setopt doom-themes-padded-modeline nil)
 ;; Enable flashing mode-line on errors
 (doom-themes-visual-bell-config)
-;; or for treemacs users
-(doom-themes-treemacs-config)
-;; Corrects (and improves) org-mode's native fontification.
-(doom-themes-org-config)
 
 ;; フレームの色の指定
 (setopt frame-background-mode 'dark)
