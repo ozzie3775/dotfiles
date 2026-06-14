@@ -182,3 +182,6 @@ vterm_prompt_end() {
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+# OpenClaw Completion
+[ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
