@@ -23,8 +23,6 @@
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;(setq! doom-font (font-spec :family "PlemolJP Console NF" :size 17))
-(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 17))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -44,58 +42,32 @@
 ;; Enable flashing mode-line on errors
 (doom-themes-visual-bell-config)
 
-;; フレームの色の指定
-(setopt frame-background-mode 'dark)
-(blink-cursor-mode 1)
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setopt display-line-numbers-type t)
-;; テキストモードのときは行番号は要らない
-(remove-hook! 'text-mode-hook #'display-line-numbers-mode)
-
-;;;; ======================================================================
-;;;; Org-mode
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org/")
-(setopt org-modern-star 'replace)
-(setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
-(setopt org-image-actual-width 640)
-(add-to-list 'safe-local-variable-directories org-directory)
-
-;; lang/org/config.elのuse-package! evil-orgの上書き
-(after! evil-org
-  (map! :map evil-org-mode-map
-        ;; C-jはSKKで使いたい
-        :i "C-j" nil
-
-        :map org-read-date-minibuffer-local-map
-        ;; C-hはDELに置き換えているのでDELで上書き
-        "DEL" (cmd! (org-eval-in-calendar '(calendar-backward-day 1)))))
-
-(after! org-roam
-  (setq org-roam-graph-viewer (executable-find "open")))
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;; `with-eval-after-load' block, otherwise Doom's defaults may override your
+;; settings. E.g.
 ;;
-;;   (after! PACKAGE
+;;   (with-eval-after-load 'PACKAGE
 ;;     (setq x y))
 ;;
 ;; The exceptions to this rule:
 ;;
 ;;   - Setting file/directory variables (like `org-directory')
 ;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;     package is loaded (see 'C-h v VARIABLE' to look them up).
 ;;   - Setting doom variables (which start with 'doom-' or '+').
 ;;
 ;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
 ;; - `add-load-path!' for adding directories to the `load-path', relative to
 ;;   this file. Emacs searches the `load-path' when you load packages with
 ;;   `require' or `use-package'.
@@ -112,6 +84,8 @@
 
 ;;; ======================================================================
 ;;; 雑多な設定
+
+(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 17))
 
 ;; ロードパスの追加
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
@@ -151,6 +125,13 @@
     (add-to-list 'default-frame-alist '(height . 38)))
    ))
 
+;; フレームの色の指定
+(setopt frame-background-mode 'dark)
+(blink-cursor-mode 1)
+
+;; テキストモードのときは行番号は要らない
+(remove-hook! 'text-mode-hook #'display-line-numbers-mode)
+
 ;;; ======================================================================
 ;;; OS固有設定
 
@@ -173,14 +154,15 @@
 ;; Windowsの設定
 (when (featurep :system 'windows)
   (set-language-environment "UTF-8")
-  (after! pcmpl-args
+  (with-eval-after-load 'pcmpl-args
     (fset 'pcmpl-args-extract-argspecs-from-manpage #'ignore))
-  (after! org-download
+  (with-eval-after-load 'org-download
     (setq org-download-screenshot-method "magick clipboard: %s")
     (defun org-download-clipboard (&optional basename)
       (interactive)
       (org-id-get-create)
       (org-download-screenshot basename))))
+
 ;;; ======================================================================
 ;;; evilの挙動変更
 
@@ -188,11 +170,30 @@
         evil-vsplit-window-right t        ; set splitright
         evil-cjk-emacs-word-boundary t    ; 単語境界をEmacs互換に
         )
-(after! evil-escape
+(with-eval-after-load 'evil-escape
   (setopt evil-escape-key-sequence "jk"))
 
 ;;; ======================================================================
 ;;; Doomパッケージ設定
+
+;;; lang -> org
+(setopt org-modern-star 'replace)
+(setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
+(setopt org-image-actual-width 640)
+(add-to-list 'safe-local-variable-directories org-directory)
+
+;; lang/org/config.elのuse-package! evil-orgの上書き
+(with-eval-after-load 'evil-org
+  (map! :map evil-org-mode-map
+        ;; C-jはSKKで使いたい
+        :i "C-j" nil
+
+        :map org-read-date-minibuffer-local-map
+        ;; C-hはDELに置き換えているのでDELで上書き
+        "DEL" (cmd! (org-eval-in-calendar '(calendar-backward-day 1)))))
+
+(with-eval-after-load 'org-roam
+  (setq org-roam-graph-viewer (executable-find "open")))
 
 ;;; input -> japanese (SKK)
 (defun +skk-activate ()
@@ -213,14 +214,14 @@
 
 ;; input/japanese/config.elでaddされているhookを削除する
 ;; （これだとC-gしたらSKKが終了してしまう）
-(after! skk
+(with-eval-after-load 'skk
   (remove-hook 'doom-escape-hook #'skk-mode-exit))
 
 ;; input/japanese/config.elでtext-mode-hookに挿入されているので削除する
 (remove-hook 'text-mode-hook #'pangu-spacing-mode)
 
 ;; tools -> llm (gptel)
-(after! gptel
+(with-eval-after-load 'gptel
   (setopt gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
@@ -239,7 +240,7 @@
     (gptel-make-ollama "Ollama"
       :host "localhost:11434"
       :stream t
-      :models '(codellama qwen2.5-coder:14b deepseek-coder-v2:16b))
+      :models '(gemma4:12b-it-qat))
     (gptel-make-openai "apfel"
       :host "localhost:11434"
       :stream t
@@ -248,10 +249,10 @@
     )))
 
 ;; tools -> magit
-(after! magit
+(with-eval-after-load 'magit
   (setq +magit-open-windows-in-direction 'down))
 
-(after! gptel-magit
+(with-eval-after-load 'gptel-magit
   (unless AT-OFFICE
       (setq gptel-magit-model 'gemini-flash-lite-latest))
   (setq gptel-magit-commit-prompt
@@ -262,7 +263,7 @@
 (setopt +word-wrap-fill-style 'soft)
 
 ;; elfeed
-(after! elfeed
+(with-eval-after-load 'elfeed
   (setq elfeed-search-remain-on-entry t) ; 記事を開いた時に一行進まないようにする
   (setopt elfeed-goodies/entry-pane-size 0.8)
   (setopt elfeed-goodies/entry-pane-position 'bottom)
@@ -277,7 +278,7 @@
         ))
 
 ;; centaur-tabs
-(after! centaur-tabs
+(with-eval-after-load 'centaur-tabs
   (add-to-list 'centaur-tabs-excluded-prefixes "*elfeed"))
 
 ;;; ======================================================================
