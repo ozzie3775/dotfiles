@@ -177,9 +177,10 @@
 ;;; Doomパッケージ設定
 
 ;;; lang -> org
-(setopt org-modern-star 'replace)
-(setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
-(setopt org-image-actual-width 640)
+(with-eval-after-load 'org
+  (setopt org-modern-star 'replace)
+  (setopt org-modern-replace-stars "󰉫󰉬󰉭󰉮󰉯󰉰")
+  (setopt org-image-actual-width 640))
 (add-to-list 'safe-local-variable-directories org-directory)
 
 ;; lang/org/config.elのuse-package! evil-orgの上書き
