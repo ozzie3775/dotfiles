@@ -154,6 +154,20 @@
 ;; Windowsの設定
 (when (featurep :system 'windows)
   (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-buffer-file-coding-system 'utf-8)
+  (setq-default buffer-file-coding-system 'utf-8)
+  (set-file-name-coding-system 'cp932)
+  (setq default-file-name-coding-system 'cp932
+        file-name-coding-system 'cp932
+        locale-coding-system 'cp932
+        default-process-coding-system '(utf-8-unix . cp932))
+  (add-hook 'shell-mode-hook
+            (lambda ()
+              (when (string-match "cmdproxy\\.exe" shell-file-name)
+                (set-process-coding-system 'cp932 'cp932))))
+  (add-to-list 'file-name-handler-alist '("\\.lnk\\'" . w32-browser))
   (with-eval-after-load 'pcmpl-args
     (fset 'pcmpl-args-extract-argspecs-from-manpage #'ignore))
   (with-eval-after-load 'org-download
