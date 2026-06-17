@@ -240,8 +240,7 @@
   (setopt gptel-default-mode 'org-mode)
   (cond
    (AT-OFFICE
-    (setopt gptel-use-curl nil)
-    (setopt gptel-model 'gpt-5.3-codex)
+    (setopt gptel-model 'gpt-5.4)
     (setopt gptel-backend '(gptel-gh "Copilot")))
    (t
     (setopt gptel-model 'gemini-flash-lite-latest)
