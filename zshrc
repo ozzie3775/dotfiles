@@ -69,8 +69,8 @@ _source_if_exists "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # brew install zsh-history-substring-search
 _source_if_exists "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
 if (( ${+widgets[history-substring-search-up]} )); then
-    bindkey '^p' history-substring-search-up
-    bindkey '^n' history-substring-search-down
+    bindkey -M emacs '^P' history-substring-search-up
+    bindkey -M emacs '^N' history-substring-search-down
     HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 fi
 
