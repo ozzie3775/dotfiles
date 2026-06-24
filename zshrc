@@ -71,11 +71,14 @@ unfunction _source_if_exists
 
 # PATH
 typeset -U path PATH
-path=(./bin(N-/) $path)
-path=(~/bin(N-/) $path)
-path=(~/.local/bin(N-/) $path)
-path=(~/.config/emacs/bin(N-/) $path)
-path=(~/go/bin(N-/) $path)
+path=(
+    ./bin(N-/)
+    ~/bin(N-/)
+    ~/.local/bin(N-/)
+    ~/.config/emacs/bin(N-/)
+    ~/go/bin(N-/)
+    $path
+)
 
 # lesspipe
 if (( ${+commands[lesspipe.sh]} )); then
