@@ -31,9 +31,11 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-if [[ -d "${HOMEBREW_PREFIX}/share/zsh-completions" ]]; then
-    FPATH="${HOMEBREW_PREFIX}/share/zsh-completions:${FPATH}"
-fi
+typeset -U fpath FPATH
+fpath=(
+    "$HOMEBREW_PREFIX/share/zsh-completions"(N-/)
+    $fpath
+)
 
 autoload -Uz compinit
 compinit
@@ -55,16 +57,29 @@ function _source_if_exists() {
 
 # zsh-syntax-highlighting
 # brew install zsh-syntax-highlighting
-_source_if_exists "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+_source_if_exists "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 _source_if_exists "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # zsh-autosuggestions
 # brew install zsh-autosuggestions
-_source_if_exists "${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+_source_if_exists "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 _source_if_exists "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# zsh-history-substring-search
+# brew install zsh-history-substring-search
+_source_if_exists "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+if (( ${+widgets[history-substring-search-up]} )); then
+    bindkey '^p' history-substring-search-up
+    bindkey '^n' history-substring-search-down
+    HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+fi
 
 # OpenClaw Completion
 _source_if_exists "$HOME/.openclaw/completions/openclaw.zsh"
+
+# ghostty integratoin
+_source_if_exists "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+
 
 # 使い終わった関数を削除してシェル環境を汚さないようにする
 unfunction _source_if_exists
