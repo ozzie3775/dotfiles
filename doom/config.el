@@ -85,7 +85,7 @@
 ;;; ======================================================================
 ;;; 雑多な設定
 
-(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 17))
+(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 18))
 
 ;; ロードパスの追加
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
@@ -115,7 +115,7 @@
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR -> 336
     ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR (WSL) -> 381
     (add-to-list 'default-frame-alist '(width . 120))
-    (add-to-list 'default-frame-alist '(height . 60)))
+    (add-to-list 'default-frame-alist '(height . 50)))
    (t
     ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
     ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
