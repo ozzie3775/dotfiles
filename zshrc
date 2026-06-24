@@ -27,8 +27,12 @@ setopt inc_append_history_time
 umask 077
 
 # homebrew関係
-if command -v /opt/homebrew/bin/brew &>/dev/null; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [[ -d "${HOMEBREW_PREFIX}/share/zsh-completions" ]]; then
+    FPATH="${HOMEBREW_PREFIX}/share/zsh-completions:${FPATH}"
 fi
 
 autoload -Uz compinit
@@ -74,8 +78,8 @@ path=(~/.config/emacs/bin(N-/) $path)
 path=(~/go/bin(N-/) $path)
 
 # lesspipe
-if command -v lesspipe.sh 1>/dev/null 2>&1; then
-  export LESSOPEN="| lesspipe.sh %s"
+if (( ${+commands[lesspipe.sh]} )); then
+    export LESSOPEN="| lesspipe.sh %s"
 fi
 
 # タイトルバーにパスを表示する
@@ -86,28 +90,25 @@ function history-all { history -E 1 }
 
 # Functions
 function rmb {
-  find . -name '.*~' -exec rm {} \; -print
-  find . -name '*~' -exec rm {} \; -print
+    find . -name '.*~' -exec rm {} \; -print
+    find . -name '*~' -exec rm {} \; -print
 }
 
 # alias
 
-## Mac
-if [[ $OSTYPE == *darwin* ]]; then
-  alias top="top -o cpu"
-  alias ldd="otool -L"
-  alias strace="dtruss"
-fi
-
-## Linux
-if [[ $OSTYPE == *linux* ]]; then
-  alias open="xdg-open"
-fi
-
-## cygwin
-if [[ $OSTYPE == cygwin ]]; then
-  alias open="cygstart"
-fi
+case "$OSTYPE" in
+    *darwin*)
+        alias top="top -o cpu"
+        alias ldd="otool -L"
+        alias strace="dtruss"
+        ;;
+    *linux*)
+        alias open="xdg-open"
+        ;;
+    *cygwin*)
+        alias open="cygstart"
+        ;;
+esac
 
 alias h=history
 alias vi="nvim"
@@ -127,72 +128,73 @@ alias bcn="bundle clean"
 alias ls="eza --time-style=long-iso --icons"
 
 # mise
-if command -v mise 1>/dev/null 2>&1; then
-  eval "$(mise activate zsh)"
+if (( ${+commands[mise]} )); then
+    eval "$(mise activate zsh)"
 fi
 
 # starship
 # brew install starship
-if command -v starship 1>/dev/null 2>&1; then
-  eval "$(starship init zsh)"
+if (( ${+commands[starship]} )); then
+    eval "$(starship init zsh)"
 fi
 
 # zoxide
 # brew install zoxide
-if command -v zoxide 1>/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
+if (( ${+commands[zoxide]} )); then
+    eval "$(zoxide init zsh)"
 fi
 
 ## fzf
 # brew install fzf
-if command -v fzf 1>/dev/null 2>&1; then
-  eval "$(fzf --zsh)"
+if (( ${+commands[fzf]} )); then
+    eval "$(fzf --zsh)"
+
+    local -a fzf_opts=(
+        --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
+        --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
+        --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
+        --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
+        --preview-window=down
+    )
+    export FZF_DEFAULT_OPTS="${(j: :)fzf_opts}"
+    export FZF_CTRL_T_COMMAND="fd -t f"
+    export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind '?:toggle-preview'"
+    export FZF_ALT_C_COMMAND="fd -t d"
+    export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -200'"
+    export FZF_TMUX=1
+    export FZF_TMUX_OPTS="-p 80%"
 fi
-export FZF_DEFAULT_OPTS='
---color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
---color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
---color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
---color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
---preview-window=down'
-export FZF_CTRL_T_COMMAND="fd -t f"
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind '?:toggle-preview'"
-export FZF_ALT_C_COMMAND="fd -t d"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -200'"
-export FZF_TMUX=1
-export FZF_TMUX_OPTS="-p 80%"
 
 # uv
 # brew install uv
-if command -v uv 1>/dev/null 2>&1; then
-  eval "$(uv generate-shell-completion zsh)"
+if (( ${+commands[uv]} )); then
+    eval "$(uv generate-shell-completion zsh)"
 fi
 
 # for Emacs vterm
 vterm_printf() {
-  if [ -n "$TMUX" ] \
-    && { [ "${TERM%%-*}" = "tmux" ] \
-    || [ "${TERM%%-*}" = "screen" ]; }; then
-  # Tell tmux to pass the escape sequences through
-  printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-elif [ "${TERM%%-*}" = "screen" ]; then
-  # GNU screen (screen, screen-256color, screen-256color-bce)
-  printf "\eP\e]%s\007\e\\" "$1"
-else
-  printf "\e]%s\e\\" "$1"
-  fi
+    if [ -n "$TMUX" ] && { [ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ]; }; then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
 }
 
 # Yazi
 function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
 }
 
 vterm_prompt_end() {
-  vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
