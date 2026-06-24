@@ -43,13 +43,27 @@ export CLICOLOR=true
 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# zsh-fast-syntax-highlighting
-# brew install zsh-fast-syntax-highlighting
-source ${HOMEBREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+# プラグインを安全に読み込むための共通関数
+function _source_if_exists() {
+    local target_path="$1"
+    [[ -f "$target_path" ]] && source "$target_path"
+}
+
+# zsh-syntax-highlighting
+# brew install zsh-syntax-highlighting
+_source_if_exists "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+_source_if_exists "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # zsh-autosuggestions
 # brew install zsh-autosuggestions
-source ${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+_source_if_exists "${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+_source_if_exists "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# OpenClaw Completion
+_source_if_exists "$HOME/.openclaw/completions/openclaw.zsh"
+
+# 使い終わった関数を削除してシェル環境を汚さないようにする
+unfunction _source_if_exists
 
 # PATH
 typeset -U path PATH
@@ -182,6 +196,3 @@ vterm_prompt_end() {
 }
 setopt PROMPT_SUBST
 PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
-# OpenClaw Completion
-[ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
