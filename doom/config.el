@@ -161,8 +161,8 @@
   (set-file-name-coding-system 'cp932)
   (setq default-file-name-coding-system 'cp932
         file-name-coding-system 'cp932
-        locale-coding-system 'cp932
-        default-process-coding-system '(utf-8-unix . cp932))
+        locale-coding-system 'utf-8
+        default-process-coding-system '(utf-8-unix . utf-8-unix))
   (add-hook 'shell-mode-hook
             (lambda ()
               (when (string-match "cmdproxy\\.exe" shell-file-name)
