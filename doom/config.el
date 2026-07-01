@@ -163,6 +163,8 @@
         file-name-coding-system 'cp932
         locale-coding-system 'utf-8
         default-process-coding-system '(utf-8-unix . utf-8-unix))
+  (add-to-list 'process-coding-system-alist
+               '("curl\\(\\.exe\\)?\\'" . (utf-8-unix . cp932)))
   (add-hook 'shell-mode-hook
             (lambda ()
               (when (string-match "cmdproxy\\.exe" shell-file-name)
