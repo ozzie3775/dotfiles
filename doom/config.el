@@ -153,17 +153,14 @@
 
 ;; Windowsの設定
 (when (featurep :system 'windows)
-  (set-language-environment 'utf-8)
   (set-default-coding-systems 'utf-8)
+  ;; cp932をcoding-system-priority-listの先頭に
   (prefer-coding-system 'cp932)
   (prefer-coding-system 'utf-8)
   (setq locale-coding-system 'utf-8)
+  ;; gptel対策: curl.exeの出力をutf-8-unixに、入力をcp932に
   (add-to-list 'process-coding-system-alist
                '("curl\\(\\.exe\\)?\\'" . (utf-8-unix . cp932)))
-  (add-hook 'shell-mode-hook
-            (lambda ()
-              (when (string-match "cmdproxy\\.exe" shell-file-name)
-                (set-process-coding-system 'cp932 'cp932))))
   (add-to-list 'file-name-handler-alist '("\\.lnk\\'" . w32-browser))
   (with-eval-after-load 'pcmpl-args
     (fset 'pcmpl-args-extract-argspecs-from-manpage #'ignore))
