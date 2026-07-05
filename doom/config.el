@@ -250,7 +250,7 @@
     (gptel-make-ollama "Ollama"
       :host "localhost:11434"
       :stream t
-      :models '(gemma4:12b-it-qat))
+      :models '(gemma4:12b-it-qat gemma4:e4b-mlx gemma4:12b-mlx))
     (gptel-make-openai "apfel"
       :host "localhost:11434"
       :stream t
