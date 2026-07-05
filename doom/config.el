@@ -223,11 +223,13 @@
       ;; C-gはSKKへ
       :i "C-g" nil)
 
-;; insertモードから出るときにSKKをlatin-modeにする
+;; insertモードから出るときにSKKをlatin-modeにする/IME-OFFにする
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
             (when (bound-and-true-p skk-mode)
-              (skk-latin-mode-on))))
+              (skk-latin-mode-on))
+            (when (fboundp 'mac-ime-deactivate)
+              (mac-ime-deactivate))))
 
 ;; input/japanese/config.elでaddされているhookを削除する
 ;; （これだとC-gしたらSKKが終了してしまう）
