@@ -153,16 +153,11 @@
 
 ;; Windowsの設定
 (when (featurep :system 'windows)
-  (set-language-environment "UTF-8")
-  (prefer-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
   (set-default-coding-systems 'utf-8)
-  (set-buffer-file-coding-system 'utf-8)
-  (setq-default buffer-file-coding-system 'utf-8)
-  (set-file-name-coding-system 'cp932)
-  (setq default-file-name-coding-system 'cp932
-        file-name-coding-system 'cp932
-        locale-coding-system 'utf-8
-        default-process-coding-system '(utf-8-unix . utf-8-unix))
+  (prefer-coding-system 'cp932)
+  (prefer-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
   (add-to-list 'process-coding-system-alist
                '("curl\\(\\.exe\\)?\\'" . (utf-8-unix . cp932)))
   (add-hook 'shell-mode-hook
