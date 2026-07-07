@@ -86,6 +86,7 @@
 ;;; 雑多な設定
 
 (setopt doom-font (font-spec :family "UDEV Gothic NF" :size 18))
+(save-place-mode 1)
 
 ;; ロードパスの追加
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
