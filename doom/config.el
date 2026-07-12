@@ -264,8 +264,6 @@
   (setq +magit-open-windows-in-direction 'down))
 
 (with-eval-after-load 'gptel-magit
-  (unless AT-OFFICE
-      (setq gptel-magit-model 'gemini-flash-lite-latest))
   (setq gptel-magit-commit-prompt
         (concat gptel-magit-prompt-conventional-commits
                 "\n\nコメントは日本語で体言止めで出力すること")))
