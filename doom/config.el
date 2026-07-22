@@ -85,7 +85,9 @@
 ;;; ======================================================================
 ;;; 雑多な設定
 
-(setopt doom-font (font-spec :family "UDEV Gothic NF" :size 18))
+(setopt doom-font
+        (font-spec :family "UDEV Gothic NF"
+                   :size (if (<= (display-pixel-width) 1920) 16 18)))
 (save-place-mode 1)
 
 ;; ロードパスの追加
@@ -110,20 +112,12 @@
 ;; モニターサイズごとのウィンドウサイズ設定
 (when (display-graphic-p)
   (cond
-   ((> (display-mm-height) 320)
-    ;; iMac Retina 5K 27 inch 2019 27" (5120x2880) -> 397
-    ;; JAPANNEXT WQHD (2560x1440) 27" JN-i27QR-C65W-HSP -> 397
-    ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR -> 336
-    ;; JAPANNEXT WQHD (2560x1440) 27" JN-IPS272WQHDR (WSL) -> 381
-    (add-to-list 'default-frame-alist '(width . 120))
-    (add-to-list 'default-frame-alist '(height . 50)))
-   (t
-    ;; MacBook Air M1 2020 13.3" (2560x1600) -> 248
-    ;; MacBook Air M4 2025 13.6" (2560x1664) -> 263
-    ;; HP Elite Book 840 G10 14.0" (1920x1200) -> 189
-    ;; HP Elite Book 840 G10 14.0" (1920x1200) (WSL) -> 317
+   ((<= (display-pixel-width) 1920)
     (add-to-list 'default-frame-alist '(width . 120))
     (add-to-list 'default-frame-alist '(height . 38)))
+   (t
+    (add-to-list 'default-frame-alist '(width . 120))
+    (add-to-list 'default-frame-alist '(height . 50)))
    ))
 
 ;; フレームの色の指定
