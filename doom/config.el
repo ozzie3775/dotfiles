@@ -229,6 +229,8 @@
 ;; tools -> llm (gptel)
 (with-eval-after-load 'gptel
   (setopt gptel-default-mode 'org-mode)
+  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
   (cond
    (AT-OFFICE
     (setopt gptel-model 'gpt-5.4)
