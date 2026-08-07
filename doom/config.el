@@ -88,7 +88,6 @@
 (setopt doom-font
         (font-spec :family "UDEV Gothic NF"
                    :size (if (<= (display-pixel-width) 1920) 16 18)))
-(save-place-mode 1)
 
 ;; ロードパスの追加
 (add-load-path! (expand-file-name "lisp/" doom-user-dir))
