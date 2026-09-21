@@ -1,1 +1,0 @@
-abbr "tc"="tmux neww -n claude -c \"\$PWD\" claude"

@@ -113,21 +113,7 @@ case "$OSTYPE" in
         ;;
 esac
 
-alias h=history
 alias vi="nvim"
-alias wgetg="wget -e robots=off -l 1 -H -r -nd -A .jpg"
-alias history='history -E'
-alias be="bundle exec"
-alias beruby="bundle exec ruby"
-alias berspec="bundle exec rspec"
-alias berails="bundle exec rails"
-alias bl="bundle list"
-alias bp="bundle package"
-alias bo="bundle open"
-alias bout="bundle outdated"
-alias bu="bundle update"
-alias bi="bundle_install"
-alias bcn="bundle clean"
 alias ls="eza --time-style=long-iso --icons"
 
 # mise
