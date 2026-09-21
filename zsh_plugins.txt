@@ -1,0 +1,4 @@
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+olets/zsh-abbr
+zsh-users/zsh-syntax-highlighting

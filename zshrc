@@ -55,19 +55,11 @@ function _source_if_exists() {
     [[ -f "$target_path" ]] && source "$target_path"
 }
 
-# zsh-syntax-highlighting
-# brew install zsh-syntax-highlighting
-_source_if_exists "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-_source_if_exists "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# antidote (zsh-autosuggestions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
+# brew install antidote
+_source_if_exists "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh"
+antidote load
 
-# zsh-autosuggestions
-# brew install zsh-autosuggestions
-_source_if_exists "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-_source_if_exists "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
-# zsh-history-substring-search
-# brew install zsh-history-substring-search
-_source_if_exists "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
 if (( ${+widgets[history-substring-search-up]} )); then
     bindkey -M emacs '^P' history-substring-search-up
     bindkey -M emacs '^N' history-substring-search-down
