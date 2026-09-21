@@ -60,6 +60,13 @@ This repository contains configurations for various tools including **Doom Emacs
     ```
     `doom install` picks up this repo's `doom/` directory via the
     `~/.config/doom` symlink `install.sh` already created.
+6.  **vim-plug (Vim plugin manager):**
+    ```bash
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    ```
+    Then open vim and run `:PlugInstall` to fetch the plugins listed in
+    `vimrc`.
 
 ## Tool Specifics
 
