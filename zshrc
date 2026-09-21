@@ -97,6 +97,12 @@ function rmb {
     find . -name '*~' -exec rm {} \; -print
 }
 
+# tmuxの新しいwindowでコマンドを実行する (例: nw vi vimrc)
+function nw {
+    tmux neww -c "$PWD" "$@"
+}
+compdef _precommand nw
+
 # alias
 
 case "$OSTYPE" in
