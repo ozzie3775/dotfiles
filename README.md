@@ -41,26 +41,26 @@ This repository contains configurations for various tools including **Doom Emacs
     ```
     Creates all the symlinks below (skipping ones already in place, and
     warning instead of overwriting anything unexpected). Safe to re-run.
-3.  **antidote (Zsh plugin manager):**
+3.  **[antidote](https://antidote.sh/install) (Zsh plugin manager):**
     ```bash
     git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
     ```
     `zshrc` sources antidote only if this directory exists, so a shell
     without it starts fine — just without the Zsh plugins.
-4.  **TPM (Tmux plugin manager):**
+4.  **[TPM](https://github.com/tmux-plugins/tpm) (Tmux plugin manager):**
     ```bash
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     ```
     Then, inside tmux, press `prefix + I` to fetch the plugins listed in
     `tmux.conf`.
-5.  **Doom Emacs:**
+5.  **[Doom Emacs](https://docs.doomemacs.org/latest/getting_started/install/):**
     ```bash
     git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
     ~/.config/emacs/bin/doom install
     ```
     `doom install` picks up this repo's `doom/` directory via the
     `~/.config/doom` symlink `install.sh` already created.
-6.  **vim-plug (Vim plugin manager):**
+6.  **[vim-plug](https://junegunn.github.io/vim-plug/installation/) (Vim plugin manager):**
     ```bash
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
