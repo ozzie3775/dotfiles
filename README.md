@@ -47,6 +47,19 @@ This repository contains configurations for various tools including **Doom Emacs
     ```
     `zshrc` sources antidote only if this directory exists, so a shell
     without it starts fine — just without the Zsh plugins.
+4.  **TPM (Tmux plugin manager):**
+    ```bash
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    ```
+    Then, inside tmux, press `prefix + I` to fetch the plugins listed in
+    `tmux.conf`.
+5.  **Doom Emacs:**
+    ```bash
+    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+    ~/.config/emacs/bin/doom install
+    ```
+    `doom install` picks up this repo's `doom/` directory via the
+    `~/.config/doom` symlink `install.sh` already created.
 
 ## Tool Specifics
 
