@@ -33,6 +33,9 @@ fi
 
 typeset -U fpath FPATH
 
+# zsh-abbr: 略語定義はdotfilesリポジトリで管理する
+export ABBR_USER_ABBREVIATIONS_FILE="$HOME/.dotfiles/zsh_abbreviations"
+
 # antidote (zsh-autosuggestions, zsh-completions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
 # Install: git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
 # Update:  antidote update
