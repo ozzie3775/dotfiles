@@ -49,15 +49,9 @@ export CLICOLOR=true
 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# プラグインを安全に読み込むための共通関数
-function _source_if_exists() {
-    local target_path="$1"
-    [[ -f "$target_path" ]] && source "$target_path"
-}
-
 # antidote (zsh-autosuggestions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
 # brew install antidote
-_source_if_exists "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh"
+[[ -f "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh" ]] && source "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh"
 antidote load
 
 if (( ${+widgets[history-substring-search-up]} )); then
@@ -67,14 +61,10 @@ if (( ${+widgets[history-substring-search-up]} )); then
 fi
 
 # OpenClaw Completion
-_source_if_exists "$HOME/.openclaw/completions/openclaw.zsh"
+[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
 
 # ghostty integratoin
-_source_if_exists "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
-
-
-# 使い終わった関数を削除してシェル環境を汚さないようにする
-unfunction _source_if_exists
+[[ -f "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration" ]] && source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
 
 # PATH
 typeset -U path PATH
