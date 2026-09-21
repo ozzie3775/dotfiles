@@ -32,24 +32,8 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 fi
 
 typeset -U fpath FPATH
-fpath=(
-    "$HOMEBREW_PREFIX/share/zsh-completions"(N-/)
-    $fpath
-)
 
-autoload -Uz compinit
-compinit
-zstyle ':completion:*:default' menu select=2
-
-# Ls Color
-export LSCOLORS=exfxcxdxbxegedabagacad
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-export ZLS_COLORS=$LS_COLORS
-export CLICOLOR=true
-
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-# antidote (zsh-autosuggestions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
+# antidote (zsh-autosuggestions, zsh-completions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
 # Install: git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
 # Update:  antidote update
 if [[ -f "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh" ]]; then
@@ -62,6 +46,18 @@ if (( ${+widgets[history-substring-search-up]} )); then
     bindkey -M emacs '^N' history-substring-search-down
     HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 fi
+
+autoload -Uz compinit
+compinit
+zstyle ':completion:*:default' menu select=2
+
+# Ls Color
+export LSCOLORS=exfxcxdxbxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export ZLS_COLORS=$LS_COLORS
+export CLICOLOR=true
+
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # OpenClaw Completion
 [[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
