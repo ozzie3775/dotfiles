@@ -50,9 +50,12 @@ export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # antidote (zsh-autosuggestions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
-# brew install antidote
-[[ -f "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh" ]] && source "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh"
-antidote load
+# Install: git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
+# Update:  antidote update
+if [[ -f "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh" ]]; then
+    source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
+    antidote load
+fi
 
 if (( ${+widgets[history-substring-search-up]} )); then
     bindkey -M emacs '^P' history-substring-search-up
