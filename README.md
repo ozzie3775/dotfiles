@@ -6,7 +6,7 @@ This repository contains configurations for various tools including **Doom Emacs
 
 ## Features
 
-- **Shell:** Zsh with [Starship](https://starship.rs/) prompt.
+- **Shell:** Zsh with [Starship](https://starship.rs/) prompt. Plugins managed by [antidote](https://antidote.sh/), with [zsh-abbr](https://zsh-abbr.olets.dev/) for fish-like abbreviations.
 - **Terminal:** [WezTerm](https://wezfurlong.org/wezterm/) and [Ghostty](https://ghostty.org/) with UDEV Gothic NF font.
 - **Editor:** [Doom Emacs](https://github.com/hlissner/doom-emacs) (Primary) and Vim (Secondary).
 - **Multiplexer:** Tmux with [TPM](https://github.com/tmux-plugins/tpm).
@@ -18,6 +18,8 @@ This repository contains configurations for various tools including **Doom Emacs
 
 - `doom/`: Doom Emacs configuration (`init.el`, `config.el`, `packages.el`).
 - `zshrc`: Zsh configuration.
+- `zsh_plugins.txt`: antidote plugin list (`antidote load` reads this).
+- `zsh/`: zsh-abbr abbreviations, symlinked as a whole directory to `~/.config/zsh` (see [Zsh & Starship](#zsh--starship)).
 - `tmux.conf`: Tmux configuration.
 - `vimrc`: Vim configuration.
 - `wezterm/`: WezTerm configuration.
@@ -25,6 +27,7 @@ This repository contains configurations for various tools including **Doom Emacs
 - `starship.toml`: Starship prompt configuration.
 - `bat/`: `bat` (cat clone with wings) configuration.
 - `skk`: SKK dictionary and behavior settings.
+- `install.sh`: Idempotent symlink setup script (see below).
 
 ## Setup
 
@@ -32,13 +35,18 @@ This repository contains configurations for various tools including **Doom Emacs
     ```bash
     git clone https://github.com/ozzie3775/dotfiles.git ~/.dotfiles
     ```
-2.  **Symlink (Example):**
-    You can use a tool like `stow` or manually link files:
+2.  **Symlink:**
     ```bash
-    ln -s ~/.dotfiles/zshrc ~/.zshrc
-    ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
-    # etc.
+    ~/.dotfiles/install.sh
     ```
+    Creates all the symlinks below (skipping ones already in place, and
+    warning instead of overwriting anything unexpected). Safe to re-run.
+3.  **antidote (Zsh plugin manager):**
+    ```bash
+    git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
+    ```
+    `zshrc` sources antidote only if this directory exists, so a shell
+    without it starts fine — just without the Zsh plugins.
 
 ## Tool Specifics
 
@@ -56,6 +64,8 @@ For more details, see the `doom/` directory.
 
 - **Keybindings:** Emacs-style keybindings (`bindkey -e`).
 - **Prompt:** Managed by Starship, providing a fast and informative status line.
+- **Plugin manager:** [antidote](https://antidote.sh/), installed via `git clone` (not Homebrew/apt) so `zshrc` works unchanged on both macOS and Linux. Plugin list lives in `zsh_plugins.txt`; run `antidote update` to update antidote itself and all plugins.
+- **Abbreviations:** [zsh-abbr](https://zsh-abbr.olets.dev/) expands short words (e.g. `tc`, `be`, `bl`) into full commands on Space/Enter. Definitions are stored in `zsh/abbreviations` and symlinked as the whole `zsh/` directory to `~/.config/zsh` — a *file*-level symlink there gets replaced by zsh-abbr's atomic (write-temp-then-rename) save, so the directory is linked instead. Add new ones with `abbr <name>=<expansion>`.
 
 ### Tmux
 
