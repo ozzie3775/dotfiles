@@ -1,5 +1,6 @@
 font-family = "UDEV Gothic NF"
 font-size = 18
+macos-option-as-alt = true
 keybind = ctrl+m=text:\x0d
 keybind = ctrl+i=text:\x09
 keybind = alt+h=goto_split:left
