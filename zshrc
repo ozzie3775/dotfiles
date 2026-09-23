@@ -119,7 +119,6 @@ case "$OSTYPE" in
         ;;
 esac
 
-alias vi="nvim"
 alias ls="eza --time-style=long-iso --icons"
 
 # mise
