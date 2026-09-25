@@ -3,3 +3,4 @@ zsh-users/zsh-completions kind:fpath path:src
 zsh-users/zsh-history-substring-search
 olets/zsh-abbr
 zsh-users/zsh-syntax-highlighting
+urbainvaes/fzf-marks

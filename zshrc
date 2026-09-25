@@ -33,6 +33,10 @@ fi
 
 typeset -U fpath FPATH
 
+# fzf-marks: C-gはzsh標準でsend-break(Emacsのkeyboard-quitに相当)に
+# 割り当てられているため、accept-lineと重複するC-jに変更する
+export FZF_MARKS_JUMP='^J'
+
 # antidote (zsh-autosuggestions, zsh-completions, zsh-history-substring-search, zsh-abbr, zsh-syntax-highlighting)
 # Install: git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
 # Update:  antidote update
