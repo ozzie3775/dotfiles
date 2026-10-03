@@ -94,6 +94,9 @@
 
 ;; キーバインド
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+;; Cmd+wはM-wと同じくコピーにする
+;; （Doomデフォルトのdelete-windowだと最後のウィンドウでEmacsごと終了してしまう）
+(map! "s-w" #'kill-ring-save)
 
 ;; 会社環境？
 (defconst AT-OFFICE
