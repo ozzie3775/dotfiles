@@ -303,6 +303,7 @@
   (evil-set-initial-state 'p2s-post-mode 'emacs)
   :custom
   (p2s-max-length 300)
+  (p2s-services '(bsky))
   :init
   (map! :leader
         :desc "Post the region to all SNS"
