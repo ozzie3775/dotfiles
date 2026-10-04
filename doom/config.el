@@ -352,6 +352,13 @@
 (use-package gptel-agent
   :config (gptel-agent-update))
 
+;; Codex via Agent Client Protocol
+(use-package agent-shell
+  :commands (agent-shell agent-shell-openai-start-codex)
+  :config
+  (setq agent-shell-openai-authentication
+        (agent-shell-openai-make-authentication :login t)))
+
 ;;; ======================================================================
 ;;; 自作関数
 

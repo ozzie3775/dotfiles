@@ -52,3 +52,8 @@
 (package! copilot)
 (package! gt)
 (package! gptel-agent)
+
+;; ACP agents
+(package! shell-maker)
+(package! acp)
+(package! agent-shell)
