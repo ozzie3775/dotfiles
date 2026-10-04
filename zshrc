@@ -1,5 +1,46 @@
 # -*- sh -*-
 
+# ===== 共通(AIエージェントにも必要な設定) =====
+
+umask 077
+
+# 端末上で人が使っているときだけ真。AIエージェント経由の起動では偽になる
+is_human() {
+    [[ -t 0 && -t 1 ]] || return 1
+    [[ -z $CLAUDECODE$CODEX_SANDBOX$GEMINI_CLI$CURSOR_AGENT$AI_AGENT ]]
+}
+
+# homebrew関係
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# PATH
+typeset -U path PATH
+path=(
+    ./bin(N-/)
+    ~/bin(N-/)
+    ~/.local/bin(N-/)
+    ~/.config/emacs/bin(N-/)
+    ~/go/bin(N-/)
+    $path
+)
+
+# mise
+# 非対話シェルではprecmdフックが動かないため、AIからはshims方式を使う
+if (( ${+commands[mise]} )); then
+    if is_human; then
+        eval "$(mise activate zsh)"
+    else
+        eval "$(mise activate zsh --shims)"
+    fi
+fi
+
+# エイリアス・補完・プロンプトなどはAIには不要なのでここで打ち切る
+is_human || return 0
+
+# ===== ここから人が使う場合のみ =====
+
 # history
 HISTFILE=~/.zsh_history
 HISTORY_IGNORE="(cd|pwd|l[sal])"
@@ -23,13 +64,6 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt hist_verify
 setopt inc_append_history_time
-
-umask 077
-
-# homebrew関係
-if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
 
 typeset -U fpath FPATH
 
@@ -73,17 +107,6 @@ if [[ -f "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration" ]]; 
     source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
 fi
 
-# PATH
-typeset -U path PATH
-path=(
-    ./bin(N-/)
-    ~/bin(N-/)
-    ~/.local/bin(N-/)
-    ~/.config/emacs/bin(N-/)
-    ~/go/bin(N-/)
-    $path
-)
-
 # lesspipe
 if (( ${+commands[lesspipe.sh]} )); then
     export LESSOPEN="| lesspipe.sh %s"
@@ -124,11 +147,6 @@ case "$OSTYPE" in
 esac
 
 alias ls="eza --time-style=long-iso --icons"
-
-# mise
-if (( ${+commands[mise]} )); then
-    eval "$(mise activate zsh)"
-fi
 
 # starship
 # brew install starship
